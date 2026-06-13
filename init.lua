@@ -1,7 +1,7 @@
 -- print("Hello from the new config!")
 vim.g.mapleader = " "
 
-require('options')
-require('keymaps')
-require('autocmds')
+require('config.options')
+require('config.keymaps')
+require('config.autocmds')
 -- vim.o.syntax = true
