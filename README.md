@@ -6,10 +6,10 @@
 
 ## TODOs
 
-[ ] custom colour scheme
-[ ] auto pairs
-[ ] syntax highlighting
-[ ] lsp stuffs:
-    - auto format
-    - error highlights
+- [ ] custom colour scheme
+- [ ] auto pairs
+- [ ] syntax highlighting
+-  lsp stuffs:
+    - [ ] auto format
+    - [ ] error highlights
 
