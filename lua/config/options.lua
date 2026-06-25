@@ -1,10 +1,9 @@
 -- misc
 vim.o.mouse = 'a'
 vim.cmd('colorscheme unokai')
--- vim.cmd('syntax disable')
+vim.o.signcolumn = 'yes'
 
--- linenos
-vim.o.number = true
+-- linenos vim.o.number = true
 vim.o.relativenumber = true
 
 -- splits
