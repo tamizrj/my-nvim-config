@@ -13,6 +13,12 @@ vim.o.relativenumber = true
 vim.o.splitright = true
 vim.o.splitbelow = true
 
+-- tabs
+vim.opt.tabstop = 4      -- Number of spaces that a <Tab> in the file counts for
+vim.opt.shiftwidth = 4   -- Size of an indent (e.g. with >>)
+vim.opt.softtabstop = 4  -- Number of spaces that a <Tab> counts for while performing editing operations
+-- vim.opt.expandtab = true -- Convert tabs to spaces
+
 -- misc
 vim.cmd('colorscheme unokai')
 vim.o.mouse = 'a'
@@ -37,15 +43,17 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 -- highlight on yank
 vim.api.nvim_create_autocmd('TextYankPost', {
-  desc = 'Highlight when yanking',
-  group = vim.api.nvim_create_augroup('highlight-yank', { clear = true }),
-  callback = function() vim.hl.on_yank() end,
+	desc = 'Highlight when yanking',
+	group = vim.api.nvim_create_augroup('highlight-yank', { clear = true }),
+	callback = function() vim.hl.on_yank() end,
 })
 
 -- -------------------------- PLUGINS ------------------------------
 
+local function gh(repo) return 'https://github.com/' .. repo end
 vim.pack.add({
-	"https://github.com/nvim-mini/mini.nvim"
+	gh 'nvim-mini/mini.nvim',
+	gh 'lewis6991/gitsigns.nvim'
 })
 
 require('mini.pairs').setup()
