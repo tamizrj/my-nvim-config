@@ -31,16 +31,13 @@ vim.o.undofile = true
 vim.o.confirm = true
 vim.o.termguicolors = true
 vim.o.scrolloff = 10
+vim.o.clipboard = 'unnamedplus'
 
 -- whitespace characters
 vim.o.list = true
-vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
+vim.opt.listchars = { tab = '│ ', trail = '·', nbsp = '␣' }
 
 -- --------------------------- KEYMAPS ----------------------------
-
--- copy/paste to clipboard
-vim.keymap.set('n', '<leader>y', '"+y')
-vim.keymap.set('n', '<leader>p', '"+p')
 
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
