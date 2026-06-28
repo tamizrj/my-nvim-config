@@ -2,14 +2,21 @@
 
 ## Current features
 - highlight text on yank
-- space + y/p for copy/paste to clipboard
+- treesitter for good syntax highlighting
+- Mason + tree-sitter-cli bootstrapper
 
 ## TODOs
 
-- [ ] custom colour scheme
-- [ ] auto pairs
-- [ ] syntax highlighting
+- [x] custom colour scheme
+- [x] auto pairs
+- [x] syntax highlighting w/ treesitter
+
 -  lsp stuffs:
-    - [ ] auto format
     - [ ] error highlights
+    - [ ] set up lspconfig
+    - [ ] set up lsp attach
+    - [ ] auto format
+- [ ] completion
+- [ ] scope lines
+- [ ] custom status line
 

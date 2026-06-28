@@ -24,7 +24,7 @@ vim.o.ignorecase = true
 vim.o.smartcase = true  -- only case sensitive when caps included
 
 -- misc
-vim.cmd.colorscheme('catpuccin')
+vim.cmd.colorscheme('unokai')
 vim.o.mouse = 'a'
 vim.o.signcolumn = 'yes'
 vim.o.undofile = true
@@ -43,6 +43,7 @@ vim.opt.listchars = { tab = '│ ', trail = '·', nbsp = '␣' }
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
+vim.keymap.set('n', '<leader>cr', '<cmd>%s/\r//g')
 
 -- ------------------------ AUTOCOMMANDS ----------------------------
 
@@ -67,6 +68,75 @@ require('mini.surround').setup()
 require('mini.tabline').setup()
 require('mini.icons').setup()
 require('mini.ai').setup()
+
+-- ---------------------- MASON & LSP ------------------------
+
+vim.pack.add({
+    gh 'mason-org/mason.nvim',
+    gh 'mason-org/mason-lspconfig.nvim',
+    gh 'neovim/nvim-lspconfig',
+    gh 'WhoIsSethDaniel/mason-tool-installer.nvim',
+})
+
+require('mason').setup()
+
+require('mason-tool-installer').setup({
+    ensure_installed = {
+    'tree-sitter-cli',
+    'lua_ls',
+    'clangd',
+    'pyright'
+    },
+})
+
+vim.lsp.config('lua_ls', {
+  settings = {
+    Lua = {
+      runtime = {
+        version = 'LuaJIT',
+      },
+      diagnostics = {
+        globals = {
+          'vim',
+          'require'
+        },
+      },
+      workspace = {
+        library = vim.api.nvim_get_runtime_file("", true),
+      },
+      telemetry = {
+        enable = false,
+      },
+    },
+  },
+})
+
+require('mason-lspconfig').setup({
+  automatic_enable = true,
+})
+
+vim.diagnostic.config({
+  severity_sort = true,
+  update_in_insert = false,
+  float = {
+    border = 'rounded',
+    source = 'if_many',
+  },
+  underline = true,
+  virtual_text = {
+    spacing = 2,
+    source = 'if_many',
+    prefix = '●',
+  },
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = 'E',
+      [vim.diagnostic.severity.WARN] = 'W',
+      [vim.diagnostic.severity.INFO] = 'I',
+      [vim.diagnostic.severity.HINT] = 'H',
+    },
+  },
+})
 
 -- TREESITTER SETUP (from kickstart)
 do
@@ -126,53 +196,3 @@ do
     end,
     })
 end
-
-
--- -- LSP & MASON
-
-vim.pack.add({
-    gh 'mason-org/mason.nvim',
-    gh 'mason-org/mason-lspconfig.nvim',
-    gh 'neovim/nvim-lspconfig'
-})
-
--- Initialize Mason (creates the UI and paths)
-require('mason').setup()
-
--- 1. Prepend Mason's local path to Neovim's internal environment PATH.
--- This guarantees Neovim can execute any binaries Mason downloads.
-local mason_bin = vim.fn.stdpath("data") .. "/mason/bin"
-if not string.find(vim.env.PATH, mason_bin, 1, true) then
-    vim.env.PATH = mason_bin .. ":" .. vim.env.PATH
-end
-
--- 2. Automatically bootstrap tree-sitter-cli via Mason if missing
-local registry = require("mason-registry")
-if vim.fn.executable("tree-sitter") == 0 then
-    -- Check if the registry is ready, then trigger the install
-    registry.refresh(function()
-        local p = registry.get_package("tree-sitter-cli")
-        if not p:is_installed() then
-            vim.notify("Bootstrapping tree-sitter-cli via Mason...", vim.log.levels.INFO)
-            p:install():once("closed", function()
-                vim.notify("tree-sitter-cli installed successfully!", vim.log.levels.INFO)
-            end)
-        end
-    end)
-end
-
--- Initialize the glue layer
-require('mason-lspconfig').setup({
-    -- Automatically tell Mason to install these if they are missing
-    ensure_installed = { 'lua_ls', 'pyright', 'clangd' }
-})
-
--- Intercept Neovim's startup using nvim-lspconfig
-local lspconfig = require('lspconfig')
-
--- Now, instead of vim.lsp.enable(), you configure servers through lspconfig.
--- It automatically knows to look inside Mason's secret paths!
--- vim.lsp.config.setup({})
--- lspconfig.pyright.setup({})
--- lspconfig.clangd.setup({})
-
