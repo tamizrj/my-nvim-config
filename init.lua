@@ -43,7 +43,7 @@ vim.opt.listchars = { tab = '│ ', trail = '·', nbsp = '␣' }
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>', {desc = 'Clear highlights'})
-vim.keymap.set('n', '<leader>cr', '<cmd>%s/\r//g<CR>', {desc = 'Remove \r characters'})
+vim.keymap.set('n', '<leader>cr', '<cmd>%s/\r//g<CR>', {desc = '[C]lear \r characters'})
 
 -- ------------------------ AUTOCOMMANDS ----------------------------
 
@@ -111,7 +111,8 @@ miniclue.setup({
     miniclue.gen_clues.z(),
   },
     window = {
-        delay = 300
+        width = "auto",
+        delay = 0
     }
 })
 
@@ -126,6 +127,9 @@ vim.pack.add({
 
 require('mason').setup()
 
+-- use to default install certain tools
+-- mason-tool-installer allows tools that are not servers
+-- in ensure_installed e.g. TS, formatters
 require('mason-tool-installer').setup({
     ensure_installed = {
     'tree-sitter-cli',
@@ -157,8 +161,33 @@ vim.lsp.config('lua_ls', {
   },
 })
 
+-- Create an augroup to ensure this doesn't get duplicated if you reload your config
+local lsp_attach_group = vim.api.nvim_create_augroup('UserLspConfig', { clear = true })
+
+vim.api.nvim_create_autocmd('LspAttach', {
+    group = lsp_attach_group,
+    callback = function(event)
+        -- 'event.buf' is the internal ID of the file you just opened.
+
+        -- 1. Create a helper function to easily map keys specifically to THIS buffer.
+        -- Passing `{ buffer = event.buf }` is the magic that prevents global pollution.
+        local map = function(keys, func, desc)
+            vim.keymap.set('n', keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
+        end
+
+        -- 2. Define your keymaps
+        map('K', vim.lsp.buf.hover, 'Hover documentation')
+        map('grd', vim.lsp.buf.definition, '[g]o to [d]efinition')
+        map('grd', vim.lsp.buf.declaration, '[g]o to [D]eclaration')
+        map('grr', vim.lsp.buf.references, '[g]o to [r]eferences')
+        map('grn', vim.lsp.buf.rename, '[r]e[n]ame symbol')
+        map('gra', vim.lsp.buf.code_action, 'code [a]ction')
+    end,
+    miniclue.ensure_buf_triggers()
+})
+
 require('mason-lspconfig').setup({
-  automatic_enable = true,
+  automatic_enable = true, -- runs vim.lsp.enable()
 })
 
 vim.diagnostic.config({
@@ -183,6 +212,7 @@ vim.diagnostic.config({
     },
   },
 })
+
 
 -- TREESITTER SETUP (from kickstart)
 do
