@@ -12,11 +12,13 @@
 - [x] syntax highlighting w/ treesitter
 
 -  lsp stuffs:
-    - [ ] error highlights
-    - [ ] set up lspconfig
-    - [ ] set up lsp attach
+    - [X] error highlights
+    - [X] set up lspconfig
+    - [X] set up lsp attach
     - [ ] auto format
-- [ ] completion
+- [ ] auto complete (with blink)
 - [ ] scope lines
 - [ ] custom status line
+- [ ] good indentation
+- [ ] diagnostic quickfix list
 
