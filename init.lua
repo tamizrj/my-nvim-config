@@ -161,11 +161,18 @@ vim.lsp.config('lua_ls', {
   },
 })
 
--- Create an augroup to ensure this doesn't get duplicated if you reload your config
-local lsp_attach_group = vim.api.nvim_create_augroup('UserLspConfig', { clear = true })
+require('mason-lspconfig').setup({
+  automatic_enable = true, -- runs vim.lsp.enable()
+})
 
+
+vim.o.autocomplete = true
+vim.opt.completeopt = { 'menuone', 'noinsert', 'noselect' }
+vim.opt.complete:append('o')
+-- LSP Keymaps
+-- Create an augroup to ensure this doesn't get duplicated if you reload your config
 vim.api.nvim_create_autocmd('LspAttach', {
-    group = lsp_attach_group,
+    group = vim.api.nvim_create_augroup('UserLspConfig', { clear = true }),
     callback = function(event)
         -- 'event.buf' is the internal ID of the file you just opened.
 
@@ -182,14 +189,19 @@ vim.api.nvim_create_autocmd('LspAttach', {
         map('grr', vim.lsp.buf.references, '[g]o to [r]eferences')
         map('grn', vim.lsp.buf.rename, '[r]e[n]ame symbol')
         map('gra', vim.lsp.buf.code_action, 'code [a]ction')
+        miniclue.ensure_buf_triggers()
+        local client = vim.lsp.get_client_by_id(event.data.client_id)
+        -- 1. Enable Native Autocompletion
+        if client and client:supports_method('textDocument/completion') then
+            vim.lsp.completion.enable(true, client.id, event.buf, { autotrigger = true })
+        end
     end,
-    miniclue.ensure_buf_triggers()
+
+
 })
 
-require('mason-lspconfig').setup({
-  automatic_enable = true, -- runs vim.lsp.enable()
-})
 
+-- Inline Diagnostics
 vim.diagnostic.config({
   severity_sort = true,
   update_in_insert = false,
@@ -212,7 +224,6 @@ vim.diagnostic.config({
     },
   },
 })
-
 
 -- TREESITTER SETUP (from kickstart)
 do
