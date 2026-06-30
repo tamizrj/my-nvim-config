@@ -60,6 +60,8 @@ local function gh(repo) return 'https://github.com/' .. repo end
 vim.pack.add({
     gh 'nvim-mini/mini.nvim',
     gh 'lewis6991/gitsigns.nvim',
+    gh 'saghen/blink.lib',
+    gh 'saghen/blink.cmp'
 })
 
 -- adding basic plugins
@@ -116,6 +118,13 @@ miniclue.setup({
     }
 })
 
+local cmp = require('blink.cmp')
+cmp.build():pwait()
+cmp.setup({
+    keymap = { preset = 'super-tab' },
+    signature = { enabled = true },
+})
+
 -- ---------------------- MASON & LSP ------------------------
 
 vim.pack.add({
@@ -132,10 +141,8 @@ require('mason').setup()
 -- in ensure_installed e.g. TS, formatters
 require('mason-tool-installer').setup({
     ensure_installed = {
-    'tree-sitter-cli',
-    'lua_ls',
-    'clangd',
-    'pyright'
+        'tree-sitter-cli',
+        'lua_ls',
     },
 })
 
@@ -166,9 +173,6 @@ require('mason-lspconfig').setup({
 })
 
 
-vim.o.autocomplete = true
-vim.opt.completeopt = { 'menuone', 'noinsert', 'noselect' }
-vim.opt.complete:append('o')
 -- LSP Keymaps
 -- Create an augroup to ensure this doesn't get duplicated if you reload your config
 vim.api.nvim_create_autocmd('LspAttach', {
@@ -190,14 +194,13 @@ vim.api.nvim_create_autocmd('LspAttach', {
         map('grn', vim.lsp.buf.rename, '[r]e[n]ame symbol')
         map('gra', vim.lsp.buf.code_action, 'code [a]ction')
         miniclue.ensure_buf_triggers()
-        local client = vim.lsp.get_client_by_id(event.data.client_id)
-        -- 1. Enable Native Autocompletion
-        if client and client:supports_method('textDocument/completion') then
-            vim.lsp.completion.enable(true, client.id, event.buf, { autotrigger = true })
-        end
+
+        -- -- Enable Native Autocompletion
+        -- local client = vim.lsp.get_client_by_id(event.data.client_id)
+        -- if client and client:supports_method('textDocument/completion') then
+        --     vim.lsp.completion.enable(true, client.id, event.buf, { autotrigger = true })
+        -- end
     end,
-
-
 })
 
 
