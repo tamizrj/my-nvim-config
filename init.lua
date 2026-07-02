@@ -57,13 +57,26 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 -- -------------------------- PLUGINS ------------------------------
 
 local function gh(repo) return 'https://github.com/' .. repo end
+
+vim.api.nvim_create_user_command('PackUpdate', function()
+    vim.pack.update({})
+end, {})
+
+vim.api.nvim_create_user_command('PackSync', function()
+    vim.pack.update(nil, { target = 'lockfile' })
+end, {})
+
+vim.api.nvim_create_user_command('PackDelete', function()
+
+    print("bro just use vim.pack.del()")
+end, {})
+
 vim.pack.add({
     gh 'nvim-mini/mini.nvim',
     gh 'lewis6991/gitsigns.nvim',
     { src = gh 'saghen/blink.cmp', version = vim.version.range('^1') }
 })
 
--- adding basic plugins
 require('mini.pairs').setup()
 require('mini.surround').setup()
 require('mini.tabline').setup()
