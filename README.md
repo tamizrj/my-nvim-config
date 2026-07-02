@@ -1,24 +1,21 @@
 # Tamiz's epic nvim config B)
 
 ## Current features
-- highlight text on yank
-- treesitter for good syntax highlighting
-- Mason + tree-sitter-cli bootstrapper
+- Highlight text on yank
+- Treesitter
+- Mason + LSP support
+- Diagnostics
+- Autocomplete w/ blink.cmp
 
 ## TODOs
 
-- [x] custom colour scheme
-- [x] auto pairs
-- [x] syntax highlighting w/ treesitter
-
--  lsp stuffs:
-    - [X] error highlights
-    - [X] set up lspconfig
-    - [X] set up lsp attach
-    - [ ] auto format
-- [ ] auto complete (with blink)
-- [ ] scope lines
-- [ ] custom status line
-- [ ] good indentation
+Priority order:
+- [ ] migrate from nvnew to nvim
+- [ ] understand indentation
+- [ ] formatting (possibly auto?)
 - [ ] diagnostic quickfix list
+- [ ] scope lines
+- [ ] check out mini.diff as opposed to gitsigns
+- [ ] custom status line (very premium look)
+- [ ] better colour scheme
 
