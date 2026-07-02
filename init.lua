@@ -60,8 +60,7 @@ local function gh(repo) return 'https://github.com/' .. repo end
 vim.pack.add({
     gh 'nvim-mini/mini.nvim',
     gh 'lewis6991/gitsigns.nvim',
-    gh 'saghen/blink.lib',
-    gh 'saghen/blink.cmp'
+    { src = gh 'saghen/blink.cmp', version = vim.version.range('^1') }
 })
 
 -- adding basic plugins
@@ -118,9 +117,7 @@ miniclue.setup({
     }
 })
 
-local cmp = require('blink.cmp')
-cmp.build():pwait()
-cmp.setup({
+require('blink.cmp').setup({
     keymap = { preset = 'super-tab' },
     signature = { enabled = true },
 })
