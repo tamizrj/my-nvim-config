@@ -24,7 +24,6 @@ vim.o.ignorecase = true
 vim.o.smartcase = true  -- only case sensitive when caps included
 
 -- misc
-vim.cmd.colorscheme('unokai')
 vim.o.mouse = 'a'
 vim.o.signcolumn = 'yes'
 vim.o.undofile = true
@@ -74,8 +73,11 @@ end, {})
 vim.pack.add({
     gh 'nvim-mini/mini.nvim',
     gh 'lewis6991/gitsigns.nvim',
-    { src = gh 'saghen/blink.cmp', version = vim.version.range('^1') }
+    { src = gh 'saghen/blink.cmp', version = vim.version.range('^1') },
+    gh 'catppuccin/nvim'
 })
+
+vim.cmd.colorscheme('catppuccin')
 
 require('mini.pairs').setup()
 require('mini.surround').setup()

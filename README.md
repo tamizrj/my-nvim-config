@@ -11,6 +11,7 @@
 
 Priority order:
 - [ ] migrate from nvnew to nvim
+- [ ] find a nice colour scheme
 - [ ] understand indentation
 - [ ] formatting (possibly auto?)
 - [ ] diagnostic quickfix list
