@@ -32,6 +32,7 @@ vim.o.termguicolors = true
 vim.o.scrolloff = 10
 vim.o.clipboard = 'unnamedplus'
 vim.o.wrap = false
+vim.o.cursorline = true
 
 -- whitespace characters
 vim.o.list = true
@@ -74,10 +75,13 @@ vim.pack.add({
     gh 'nvim-mini/mini.nvim',
     gh 'lewis6991/gitsigns.nvim',
     { src = gh 'saghen/blink.cmp', version = vim.version.range('^1') },
-    gh 'catppuccin/nvim'
+    gh 'navarasu/onedark.nvim'
 })
 
-vim.cmd.colorscheme('catppuccin')
+require('onedark').setup({
+    style = 'warmer'
+})
+require('onedark').load()
 
 require('mini.pairs').setup()
 require('mini.surround').setup()
