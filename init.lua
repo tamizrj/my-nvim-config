@@ -81,8 +81,18 @@ vim.pack.add({
     gh 'navarasu/onedark.nvim',
     gh 'stevearc/conform.nvim',
     gh 'NMAC427/guess-indent.nvim',
+    gh 'j-hui/fidget.nvim',
+    gh 'lukas-reineke/indent-blankline.nvim',
 })
 
+require('ibl').setup({
+    scope = {
+        enabled = true,
+        show_start = false,
+        show_end = false
+    }
+})
+require('fidget').setup({})
 require('guess-indent').setup({})
 require('onedark').setup({
     style = 'warmer',
@@ -101,7 +111,7 @@ miniclue.setup({
         -- Leader triggers
         { mode = { 'n', 'x' }, keys = '<Leader>' },
 
-        -- `[` and `]` keys
+        -- `[` and `]` keysKKKKKKKpo
         { mode = 'n',          keys = '[' },
         { mode = 'n',          keys = ']' },
 
@@ -144,7 +154,10 @@ miniclue.setup({
 
 -- autocomplete
 require('blink.cmp').setup({
-    keymap = { preset = 'super-tab' },
+    keymap = {
+        preset = 'super-tab',
+        ['<C-e>'] = { 'show', 'show_documentation', 'hide' },
+    },
     signature = {
         enabled = true,
     },
@@ -156,6 +169,7 @@ cf.setup({
     formatters_by_ft = {
         python = { 'black' },
     },
+
 })
 
 vim.keymap.set('n', '<leader>f', function()
