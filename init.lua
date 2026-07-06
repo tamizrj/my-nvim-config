@@ -36,7 +36,7 @@ vim.o.cursorline = true
 
 -- whitespace characters
 vim.o.list = true
-vim.opt.listchars = { tab = '│ ', trail = '·', nbsp = '␣' }
+vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
 -- --------------------------- KEYMAPS ----------------------------
 
@@ -51,12 +51,16 @@ vim.keymap.set('n', '<leader>cr', '<cmd>%s/\\r//g<CR>', { desc = 'Delete [C]arra
 vim.api.nvim_create_autocmd('TextYankPost', {
     desc = 'Highlight when yanking',
     group = vim.api.nvim_create_augroup('highlight-yank', { clear = true }),
-    callback = function() vim.hl.on_yank() end,
+    callback = function()
+        vim.hl.on_yank()
+    end,
 })
 
 -- -------------------------- PLUGINS ------------------------------
 
-local function gh(repo) return 'https://github.com/' .. repo end
+local function gh(repo)
+    return 'https://github.com/' .. repo
+end
 
 vim.api.nvim_create_user_command('PackUpdate', function()
     vim.pack.update({})
@@ -67,18 +71,19 @@ vim.api.nvim_create_user_command('PackSync', function()
 end, {})
 
 vim.api.nvim_create_user_command('PackDelete', function()
-    print("bro just use vim.pack.del()")
+    print('bro just use vim.pack.del()')
 end, {})
 
 vim.pack.add({
     gh 'nvim-mini/mini.nvim',
     gh 'lewis6991/gitsigns.nvim',
     { src = gh 'saghen/blink.cmp', version = vim.version.range('^1') },
-    gh 'navarasu/onedark.nvim'
+    gh 'navarasu/onedark.nvim',
+    gh 'stevearc/conform.nvim',
 })
 
 require('onedark').setup({
-    style = 'warmer'
+    style = 'warmer',
 })
 require('onedark').load()
 
@@ -130,17 +135,29 @@ miniclue.setup({
         miniclue.gen_clues.z(),
     },
     window = {
-        width = "auto",
-        delay = 0
-    }
+        width = 'auto',
+        delay = 0,
+    },
 })
 
+-- autocomplete
 require('blink.cmp').setup({
     keymap = { preset = 'super-tab' },
     signature = {
         enabled = true,
-    }
+    },
 })
+
+-- formatting
+require('conform').setup({
+    formatters_by_ft = {
+        python = { 'black' },
+    },
+})
+
+vim.keymap.set('n', '<leader>f', function()
+    require('conform').format({ async = true, lsp_format = 'fallback' })
+end, { desc = '[F]ormat buffer' })
 
 -- ---------------------- MASON & LSP ------------------------
 
@@ -161,7 +178,7 @@ require('mason-tool-installer').setup({
         'tree-sitter-cli',
         'lua_ls',
         'clangd',
-        'pyright'
+        'pyright',
     },
 })
 
@@ -174,14 +191,22 @@ vim.lsp.config('lua_ls', {
             diagnostics = {
                 globals = {
                     'vim',
-                    'require'
+                    'require',
                 },
             },
             workspace = {
-                library = vim.api.nvim_get_runtime_file("", true),
+                library = vim.api.nvim_get_runtime_file('', true),
             },
             telemetry = {
                 enable = false,
+            },
+            format = {
+                enable = true,
+                defaultConfig = {
+                    indent_style = 'space',
+                    indent_size = '2',
+                    quote_style = 'single',
+                },
             },
         },
     },
@@ -194,7 +219,6 @@ vim.lsp.config('clangd', {
 require('mason-lspconfig').setup({
     automatic_enable = true, -- runs vim.lsp.enable()
 })
-
 
 -- LSP Keymaps
 -- Create an augroup to ensure this doesn't get duplicated if you reload your config
@@ -216,7 +240,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
         map('grr', vim.lsp.buf.references, '[g]o to [r]eferences')
         map('grn', vim.lsp.buf.rename, '[r]e[n]ame symbol')
         map('gra', vim.lsp.buf.code_action, 'code [a]ction')
-        map('<leader>f', vim.lsp.buf.format, '[f]ormat buffer')
         miniclue.ensure_buf_triggers()
 
         -- -- Enable Native Autocompletion
@@ -226,7 +249,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
         -- end
     end,
 })
-
 
 -- Inline Diagnostics
 vim.diagnostic.config({
@@ -260,18 +282,32 @@ do
     --  See `:help nvim-treesitter-intro`
 
     -- NOTE: You can also specify a branch or a specific commit
-    vim.pack.add { { src = gh 'nvim-treesitter/nvim-treesitter', version = 'main' } }
+    vim.pack.add({ { src = gh('nvim-treesitter/nvim-treesitter'), version = 'main' } })
 
     -- Ensure basic parsers are installed
-    local parsers = { 'bash', 'c', 'cpp', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim',
-        'vimdoc' }
+    local parsers = {
+        'bash',
+        'c',
+        'cpp',
+        'diff',
+        'html',
+        'lua',
+        'luadoc',
+        'markdown',
+        'markdown_inline',
+        'query',
+        'vim',
+        'vimdoc',
+    }
     require('nvim-treesitter').install(parsers)
 
     ---@param buf integer
     ---@param language string
     local function treesitter_try_attach(buf, language)
         -- Check if a parser exists and load it
-        if not vim.treesitter.language.add(language) then return end
+        if not vim.treesitter.language.add(language) then
+            return
+        end
         -- Enable syntax highlighting and other treesitter features
         vim.treesitter.start(buf, language)
 
@@ -285,7 +321,9 @@ do
         local has_indent_query = vim.treesitter.query.get(language, 'indents') ~= nil
 
         -- Enable treesitter based indentation
-        if has_indent_query then vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()" end
+        if has_indent_query then
+            vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+        end
     end
 
     local available_parsers = require('nvim-treesitter').get_available()
@@ -294,16 +332,20 @@ do
             local buf, filetype = args.buf, args.match
 
             local language = vim.treesitter.language.get_lang(filetype)
-            if not language then return end
+            if not language then
+                return
+            end
 
-            local installed_parsers = require('nvim-treesitter').get_installed 'parsers'
+            local installed_parsers = require('nvim-treesitter').get_installed('parsers')
 
             if vim.tbl_contains(installed_parsers, language) then
                 -- Enable the parser if it is already installed
                 treesitter_try_attach(buf, language)
             elseif vim.tbl_contains(available_parsers, language) then
                 -- If a parser is available in `nvim-treesitter`, auto-install it and enable it after the installation is done
-                require('nvim-treesitter').install(language):await(function() treesitter_try_attach(buf, language) end)
+                require('nvim-treesitter').install(language):await(function()
+                    treesitter_try_attach(buf, language)
+                end)
             else
                 -- Try to enable treesitter features in case the parser exists but is not available from `nvim-treesitter`
                 treesitter_try_attach(buf, language)
