@@ -43,7 +43,7 @@ vim.opt.listchars = { tab = '│ ', trail = '·', nbsp = '␣' }
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>', {desc = 'Clear highlights'})
-vim.keymap.set('n', '<leader>cr', '<cmd>%s/\r//g<CR>', {desc = '[C]lear \r characters'})
+vim.keymap.set('n', '<leader>cr', '<cmd>%s/\\r//g<CR>', {desc = 'Delete [C]arraige [R]eturn'})
 
 -- ------------------------ AUTOCOMMANDS ----------------------------
 
@@ -87,7 +87,7 @@ require('mini.pairs').setup()
 require('mini.surround').setup()
 require('mini.tabline').setup()
 require('mini.icons').setup()
-require('mini.ai').setup()
+-- require('mini.ai').setup()
 
 local miniclue = require('mini.clue')
 miniclue.setup({
@@ -138,7 +138,9 @@ miniclue.setup({
 
 require('blink.cmp').setup({
     keymap = { preset = 'super-tab' },
-    signature = { enabled = true },
+    signature = {
+        enabled = true,
+    }
 })
 
 -- ---------------------- MASON & LSP ------------------------
@@ -159,6 +161,8 @@ require('mason-tool-installer').setup({
     ensure_installed = {
         'tree-sitter-cli',
         'lua_ls',
+        'clangd',
+        'pyright'
     },
 })
 
@@ -182,6 +186,10 @@ vim.lsp.config('lua_ls', {
       },
     },
   },
+})
+
+vim.lsp.config('clangd', {
+    cmd = { 'clangd', '--background-index', '--function-arg-placeholders=0' },
 })
 
 require('mason-lspconfig').setup({
