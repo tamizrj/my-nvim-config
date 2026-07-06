@@ -80,8 +80,10 @@ vim.pack.add({
     { src = gh 'saghen/blink.cmp', version = vim.version.range('^1') },
     gh 'navarasu/onedark.nvim',
     gh 'stevearc/conform.nvim',
+    gh 'NMAC427/guess-indent.nvim',
 })
 
+require('guess-indent').setup({})
 require('onedark').setup({
     style = 'warmer',
 })
@@ -149,7 +151,8 @@ require('blink.cmp').setup({
 })
 
 -- formatting
-require('conform').setup({
+local cf = require('conform')
+cf.setup({
     formatters_by_ft = {
         python = { 'black' },
     },
@@ -159,6 +162,16 @@ vim.keymap.set('n', '<leader>f', function()
     require('conform').format({ async = true, lsp_format = 'fallback' })
 end, { desc = '[F]ormat buffer' })
 
+local formatOnSave = true
+if formatOnSave then
+    cf.setup({
+        format_on_save = {
+            -- These options will be passed to conform.format()
+            timeout_ms = 500,
+            lsp_format = 'fallback',
+        }
+    })
+end
 -- ---------------------- MASON & LSP ------------------------
 
 vim.pack.add({
@@ -179,6 +192,7 @@ require('mason-tool-installer').setup({
         'lua_ls',
         'clangd',
         'pyright',
+        'black',
     },
 })
 
