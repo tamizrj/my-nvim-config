@@ -161,6 +161,15 @@ require('blink.cmp').setup({
     signature = {
         enabled = true,
     },
+    enabled = function()
+        -- Disable in text and markdown files
+        local filetype = vim.bo.filetype
+        if filetype == 'markdown' or filetype == 'text' then
+            print('markdown')
+            return false
+        end
+        return true
+    end,
 })
 
 -- formatting
