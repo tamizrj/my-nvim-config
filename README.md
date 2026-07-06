@@ -11,10 +11,7 @@
 - IBL scope lines
 
 ## TODOs
-
 Priority order:
-- [X] migrate from nvnew to nvim
 - [ ] diagnostic quickfix list
-- [ ] check out mini.diff as opposed to gitsigns
 - [ ] custom status line (very premium look)
 
