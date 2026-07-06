@@ -119,7 +119,7 @@ miniclue.setup({
         -- Leader triggers
         { mode = { 'n', 'x' }, keys = '<Leader>' },
 
-        -- `[` and `]` keysKKKKKKKpo
+        -- `[` and `]` keys
         { mode = 'n',          keys = '[' },
         { mode = 'n',          keys = ']' },
 
@@ -186,7 +186,6 @@ cf.setup({
     formatters_by_ft = {
         python = { 'black' },
     },
-
 })
 
 vim.keymap.set('n', '<leader>f', function()
@@ -203,6 +202,7 @@ if formatOnSave then
         }
     })
 end
+
 -- ---------------------- MASON & LSP ------------------------
 
 vim.pack.add({
@@ -270,8 +270,6 @@ require('mason-lspconfig').setup({
 vim.api.nvim_create_autocmd('LspAttach', {
     group = vim.api.nvim_create_augroup('UserLspConfig', { clear = true }),
     callback = function(event)
-        -- 'event.buf' is the internal ID of the file you just opened.
-
         -- 1. Create a helper function to easily map keys specifically to THIS buffer.
         -- Passing `{ buffer = event.buf }` is the magic that prevents global pollution.
         local map = function(keys, func, desc)
@@ -286,12 +284,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
         map('grn', vim.lsp.buf.rename, '[r]e[n]ame symbol')
         map('gra', vim.lsp.buf.code_action, 'code [a]ction')
         miniclue.ensure_buf_triggers()
-
-        -- -- Enable Native Autocompletion
-        -- local client = vim.lsp.get_client_by_id(event.data.client_id)
-        -- if client and client:supports_method('textDocument/completion') then
-        --     vim.lsp.completion.enable(true, client.id, event.buf, { autotrigger = true })
-        -- end
     end,
 })
 
