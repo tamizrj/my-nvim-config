@@ -14,14 +14,14 @@ vim.o.splitright = true
 vim.o.splitbelow = true
 
 -- tabs
-vim.o.tabstop = 4      -- Number of spaces that a <Tab> in the file counts for
-vim.o.shiftwidth = 4   -- Size of an indent (e.g. with >>)
-vim.o.softtabstop = 4  -- Number of spaces that a <Tab> counts for while performing editing operations
+vim.o.tabstop = 4        -- Number of spaces that a <Tab> in the file counts for
+vim.o.shiftwidth = 4     -- Size of an indent (e.g. with >>)
+vim.o.softtabstop = 4    -- Number of spaces that a <Tab> counts for while performing editing operations
 vim.opt.expandtab = true -- Convert tabs to spaces
 
 -- searching case sensitivity
 vim.o.ignorecase = true
-vim.o.smartcase = true  -- only case sensitive when caps included
+vim.o.smartcase = true -- only case sensitive when caps included
 
 -- misc
 vim.o.mouse = 'a'
@@ -42,8 +42,8 @@ vim.opt.listchars = { tab = '│ ', trail = '·', nbsp = '␣' }
 
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
-vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>', {desc = 'Clear highlights'})
-vim.keymap.set('n', '<leader>cr', '<cmd>%s/\\r//g<CR>', {desc = 'Delete [C]arraige [R]eturn'})
+vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>', { desc = 'Clear highlights' })
+vim.keymap.set('n', '<leader>cr', '<cmd>%s/\\r//g<CR>', { desc = 'Delete [C]arraige [R]eturn' })
 
 -- ------------------------ AUTOCOMMANDS ----------------------------
 
@@ -67,7 +67,6 @@ vim.api.nvim_create_user_command('PackSync', function()
 end, {})
 
 vim.api.nvim_create_user_command('PackDelete', function()
-
     print("bro just use vim.pack.del()")
 end, {})
 
@@ -91,45 +90,45 @@ require('mini.icons').setup()
 
 local miniclue = require('mini.clue')
 miniclue.setup({
-  triggers = {
-    -- Leader triggers
-    { mode = { 'n', 'x' }, keys = '<Leader>' },
+    triggers = {
+        -- Leader triggers
+        { mode = { 'n', 'x' }, keys = '<Leader>' },
 
-    -- `[` and `]` keys
-    { mode = 'n', keys = '[' },
-    { mode = 'n', keys = ']' },
+        -- `[` and `]` keys
+        { mode = 'n',          keys = '[' },
+        { mode = 'n',          keys = ']' },
 
-    -- Built-in completion
-    { mode = 'i', keys = '<C-x>' },
+        -- Built-in completion
+        { mode = 'i',          keys = '<C-x>' },
 
-    -- `g` key
-    { mode = { 'n', 'x' }, keys = 'g' },
+        -- `g` key
+        { mode = { 'n', 'x' }, keys = 'g' },
 
-    -- Marks
-    { mode = { 'n', 'x' }, keys = "'" },
-    { mode = { 'n', 'x' }, keys = '`' },
+        -- Marks
+        { mode = { 'n', 'x' }, keys = "'" },
+        { mode = { 'n', 'x' }, keys = '`' },
 
-    -- Registers
-    { mode = { 'n', 'x' }, keys = '"' },
-    { mode = { 'i', 'c' }, keys = '<C-r>' },
+        -- Registers
+        { mode = { 'n', 'x' }, keys = '"' },
+        { mode = { 'i', 'c' }, keys = '<C-r>' },
 
-    -- Window commands
-    { mode = 'n', keys = '<C-w>' },
+        -- Window commands
+        { mode = 'n',          keys = '<C-w>' },
 
-    -- `z` key
-    { mode = { 'n', 'x' }, keys = 'z' },
-  },
+        -- `z` key
+        { mode = { 'n', 'x' }, keys = 'z' },
+    },
 
-  clues = {
-    -- Enhance this by adding descriptions for <Leader> mapping groups
-    miniclue.gen_clues.square_brackets(),
-    miniclue.gen_clues.builtin_completion(),
-    miniclue.gen_clues.g(),
-    miniclue.gen_clues.marks(),
-    miniclue.gen_clues.registers(),
-    miniclue.gen_clues.windows(),
-    miniclue.gen_clues.z(),
-  },
+    clues = {
+        -- Enhance this by adding descriptions for <Leader> mapping groups
+        miniclue.gen_clues.square_brackets(),
+        miniclue.gen_clues.builtin_completion(),
+        miniclue.gen_clues.g(),
+        miniclue.gen_clues.marks(),
+        miniclue.gen_clues.registers(),
+        miniclue.gen_clues.windows(),
+        miniclue.gen_clues.z(),
+    },
     window = {
         width = "auto",
         delay = 0
@@ -167,25 +166,25 @@ require('mason-tool-installer').setup({
 })
 
 vim.lsp.config('lua_ls', {
-  settings = {
-    Lua = {
-      runtime = {
-        version = 'LuaJIT',
-      },
-      diagnostics = {
-        globals = {
-          'vim',
-          'require'
+    settings = {
+        Lua = {
+            runtime = {
+                version = 'LuaJIT',
+            },
+            diagnostics = {
+                globals = {
+                    'vim',
+                    'require'
+                },
+            },
+            workspace = {
+                library = vim.api.nvim_get_runtime_file("", true),
+            },
+            telemetry = {
+                enable = false,
+            },
         },
-      },
-      workspace = {
-        library = vim.api.nvim_get_runtime_file("", true),
-      },
-      telemetry = {
-        enable = false,
-      },
     },
-  },
 })
 
 vim.lsp.config('clangd', {
@@ -193,7 +192,7 @@ vim.lsp.config('clangd', {
 })
 
 require('mason-lspconfig').setup({
-  automatic_enable = true, -- runs vim.lsp.enable()
+    automatic_enable = true, -- runs vim.lsp.enable()
 })
 
 
@@ -213,10 +212,11 @@ vim.api.nvim_create_autocmd('LspAttach', {
         -- 2. Define your keymaps
         map('K', vim.lsp.buf.hover, 'Hover documentation')
         map('grd', vim.lsp.buf.definition, '[g]o to [d]efinition')
-        map('grd', vim.lsp.buf.declaration, '[g]o to [D]eclaration')
+        map('grD', vim.lsp.buf.declaration, '[g]o to [D]eclaration')
         map('grr', vim.lsp.buf.references, '[g]o to [r]eferences')
         map('grn', vim.lsp.buf.rename, '[r]e[n]ame symbol')
         map('gra', vim.lsp.buf.code_action, 'code [a]ction')
+        map('<leader>f', vim.lsp.buf.format, '[f]ormat buffer')
         miniclue.ensure_buf_triggers()
 
         -- -- Enable Native Autocompletion
@@ -230,26 +230,26 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
 -- Inline Diagnostics
 vim.diagnostic.config({
-  severity_sort = true,
-  update_in_insert = false,
-  float = {
-    border = 'rounded',
-    source = 'if_many',
-  },
-  underline = true,
-  virtual_text = {
-    spacing = 2,
-    source = 'if_many',
-    prefix = '●',
-  },
-  signs = {
-    text = {
-      [vim.diagnostic.severity.ERROR] = 'E',
-      [vim.diagnostic.severity.WARN] = 'W',
-      [vim.diagnostic.severity.INFO] = 'I',
-      [vim.diagnostic.severity.HINT] = 'H',
+    severity_sort = true,
+    update_in_insert = false,
+    float = {
+        border = 'rounded',
+        source = 'if_many',
     },
-  },
+    underline = true,
+    virtual_text = {
+        spacing = 2,
+        source = 'if_many',
+        prefix = '●',
+    },
+    signs = {
+        text = {
+            [vim.diagnostic.severity.ERROR] = 'E',
+            [vim.diagnostic.severity.WARN] = 'W',
+            [vim.diagnostic.severity.INFO] = 'I',
+            [vim.diagnostic.severity.HINT] = 'H',
+        },
+    },
 })
 
 -- TREESITTER SETUP (from kickstart)
@@ -263,50 +263,51 @@ do
     vim.pack.add { { src = gh 'nvim-treesitter/nvim-treesitter', version = 'main' } }
 
     -- Ensure basic parsers are installed
-    local parsers = { 'bash', 'c', 'cpp', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' }
+    local parsers = { 'bash', 'c', 'cpp', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim',
+        'vimdoc' }
     require('nvim-treesitter').install(parsers)
 
     ---@param buf integer
     ---@param language string
     local function treesitter_try_attach(buf, language)
-    -- Check if a parser exists and load it
-    if not vim.treesitter.language.add(language) then return end
-    -- Enable syntax highlighting and other treesitter features
-    vim.treesitter.start(buf, language)
+        -- Check if a parser exists and load it
+        if not vim.treesitter.language.add(language) then return end
+        -- Enable syntax highlighting and other treesitter features
+        vim.treesitter.start(buf, language)
 
-    -- Enable treesitter based folds
-    -- For more info on folds see `:help folds`
-    -- vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
-    -- vim.wo.foldmethod = 'expr'
+        -- Enable treesitter based folds
+        -- For more info on folds see `:help folds`
+        -- vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+        -- vim.wo.foldmethod = 'expr'
 
-    -- Check if treesitter indentation is available for this language, and if so enable it
-    -- in case there is no indent query, the indentexpr will fallback to the vim's built in one
-    local has_indent_query = vim.treesitter.query.get(language, 'indents') ~= nil
+        -- Check if treesitter indentation is available for this language, and if so enable it
+        -- in case there is no indent query, the indentexpr will fallback to the vim's built in one
+        local has_indent_query = vim.treesitter.query.get(language, 'indents') ~= nil
 
-    -- Enable treesitter based indentation
-    if has_indent_query then vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()" end
+        -- Enable treesitter based indentation
+        if has_indent_query then vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()" end
     end
 
     local available_parsers = require('nvim-treesitter').get_available()
     vim.api.nvim_create_autocmd('FileType', {
-    callback = function(args)
-      local buf, filetype = args.buf, args.match
+        callback = function(args)
+            local buf, filetype = args.buf, args.match
 
-      local language = vim.treesitter.language.get_lang(filetype)
-      if not language then return end
+            local language = vim.treesitter.language.get_lang(filetype)
+            if not language then return end
 
-      local installed_parsers = require('nvim-treesitter').get_installed 'parsers'
+            local installed_parsers = require('nvim-treesitter').get_installed 'parsers'
 
-      if vim.tbl_contains(installed_parsers, language) then
-        -- Enable the parser if it is already installed
-        treesitter_try_attach(buf, language)
-      elseif vim.tbl_contains(available_parsers, language) then
-        -- If a parser is available in `nvim-treesitter`, auto-install it and enable it after the installation is done
-        require('nvim-treesitter').install(language):await(function() treesitter_try_attach(buf, language) end)
-      else
-        -- Try to enable treesitter features in case the parser exists but is not available from `nvim-treesitter`
-        treesitter_try_attach(buf, language)
-      end
-    end,
+            if vim.tbl_contains(installed_parsers, language) then
+                -- Enable the parser if it is already installed
+                treesitter_try_attach(buf, language)
+            elseif vim.tbl_contains(available_parsers, language) then
+                -- If a parser is available in `nvim-treesitter`, auto-install it and enable it after the installation is done
+                require('nvim-treesitter').install(language):await(function() treesitter_try_attach(buf, language) end)
+            else
+                -- Try to enable treesitter features in case the parser exists but is not available from `nvim-treesitter`
+                treesitter_try_attach(buf, language)
+            end
+        end,
     })
 end
