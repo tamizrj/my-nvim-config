@@ -6,17 +6,15 @@
 - Mason + LSP support
 - Diagnostics
 - Autocomplete w/ blink.cmp
+- cool colour theme (onedark)
+- format on save via conform
+- IBL scope lines
 
 ## TODOs
 
 Priority order:
-- [ ] migrate from nvnew to nvim
-- [ ] find a nice colour scheme
-- [ ] understand indentation
-- [ ] formatting (possibly auto?)
+- [X] migrate from nvnew to nvim
 - [ ] diagnostic quickfix list
-- [ ] scope lines
 - [ ] check out mini.diff as opposed to gitsigns
 - [ ] custom status line (very premium look)
-- [ ] better colour scheme
 
