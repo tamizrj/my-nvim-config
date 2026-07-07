@@ -8,6 +8,7 @@
 - Autocomplete w/ blink.cmp
 - cool colour theme (onedark)
 - format on save via conform
+- template .editorconfig and .clang-format files that are symlinked on startup
 - IBL scope lines
 
 ## TODOs

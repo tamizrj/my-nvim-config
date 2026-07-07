@@ -99,6 +99,7 @@ require('onedark').setup({
 })
 require('onedark').load()
 
+-- Mini Setup
 require('mini.pairs').setup()
 require('mini.surround').setup()
 require('mini.tabline').setup()
@@ -160,7 +161,7 @@ miniclue.setup({
     },
 })
 
--- autocomplete
+-- Autocomplete
 require('blink.cmp').setup({
     keymap = {
         preset = 'super-tab',
@@ -180,7 +181,26 @@ require('blink.cmp').setup({
     end,
 })
 
--- formatting
+-- Formatting
+-- symlink formatting configs to home directory
+local home = vim.fn.expand('~')
+local nvim_dir = vim.fn.stdpath('config') -- Resolves to ~/.config/nvim
+
+local dotfiles = {
+    ['.clang-format'] = nvim_dir .. '/.clang-format',
+    ['.editorconfig'] = nvim_dir .. '/.editorconfig',
+}
+
+for link_name, target_path in pairs(dotfiles) do
+    local home_path = home .. '/' .. link_name
+    -- Check if the symlink or file doesn't exist yet
+    if vim.fn.filereadable(home_path) == 0 and vim.fn.isdirectory(home_path) == 0 then
+        -- Creates a symbolic link natively
+        vim.uv.fs_symlink(target_path, home_path)
+        print('Created symlink for ' .. link_name)
+    end
+end
+
 local cf = require('conform')
 cf.setup({
     formatters_by_ft = {
@@ -189,7 +209,7 @@ cf.setup({
 })
 
 vim.keymap.set('n', '<leader>f', function()
-    require('conform').format({ async = true, lsp_format = 'fallback' })
+    cf.format({ async = true, lsp_format = 'fallback' })
 end, { desc = '[F]ormat buffer' })
 
 local formatOnSave = true
