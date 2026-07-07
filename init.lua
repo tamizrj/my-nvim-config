@@ -33,6 +33,7 @@ vim.o.scrolloff = 10
 vim.o.clipboard = 'unnamedplus'
 vim.o.wrap = false
 vim.o.cursorline = true
+vim.o.showmode = false
 
 -- whitespace characters
 vim.o.list = true
@@ -113,6 +114,7 @@ require('mini.ai').setup({
   },
   n_lines = 500,
 })
+require('mini.statusline').setup()
 
 local miniclue = require('mini.clue')
 miniclue.setup({
