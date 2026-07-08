@@ -11,8 +11,9 @@
 - template .editorconfig and .clang-format files that are symlinked on startup
 - IBL scope lines
 - custom status line (very premium look)
+- diagnostic quickfix list
 
 ## TODOs
 Priority order:
-- [ ] diagnostic quickfix list
+- [ ] simplify treesitter implementation
 

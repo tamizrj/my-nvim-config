@@ -39,7 +39,7 @@ vim.o.showmode = false
 vim.o.list = true
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
--- --------------------------- KEYMAPS ----------------------------
+-- --------------------------- GENERAL KEYMAPS ----------------------------
 
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
@@ -212,7 +212,7 @@ cf.setup({
 
 vim.keymap.set('n', '<leader>f', function()
   cf.format({ async = true, lsp_format = 'fallback' })
-end, { desc = '[F]ormat buffer' })
+end, { desc = '[f]ormat buffer' })
 
 local formatOnSave = true
 if formatOnSave then
@@ -276,7 +276,7 @@ vim.lsp.config('clangd', {
 })
 
 require('mason-lspconfig').setup({
-  automatic_enable = true, -- runs vim.lsp.enable()
+  automatic_enable = true,   -- runs vim.lsp.enable()
 })
 
 -- LSP Keymaps Create an augroup to ensure this doesn't get duplicated if you reload your config
@@ -323,6 +323,9 @@ vim.diagnostic.config({
     },
   },
 })
+
+vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'expand [e]rror' })
+vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = '[q]uickfix list' })
 
 -- TREESITTER SETUP (from kickstart)
 do
