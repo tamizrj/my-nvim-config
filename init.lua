@@ -45,6 +45,7 @@ vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 --  See `:help hlsearch`
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>', { desc = 'Clear highlights' })
 vim.keymap.set('n', '<leader>cr', '<cmd>%s/\\r//g<CR>', { desc = 'Delete [C]arraige [R]eturn' })
+vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
 -- ------------------------ AUTOCOMMANDS ----------------------------
 
@@ -276,7 +277,7 @@ vim.lsp.config('clangd', {
 })
 
 require('mason-lspconfig').setup({
-  automatic_enable = true,   -- runs vim.lsp.enable()
+  automatic_enable = true, -- runs vim.lsp.enable()
 })
 
 -- LSP Keymaps Create an augroup to ensure this doesn't get duplicated if you reload your config
