@@ -2,3 +2,5 @@ BasedOnStyle: Google
 IndentWidth: 4
 IndentAccessModifiers: false
 AccessModifierOffset: -4
+AllowShortFunctionsOnASingleLine: Empty
+AllowShortIfStatementsOnASingleLine: WithoutElse
