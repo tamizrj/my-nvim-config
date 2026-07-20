@@ -2,5 +2,13 @@ BasedOnStyle: LLVM
 IndentWidth: 4
 IndentAccessModifiers: false
 AccessModifierOffset: -4
+
+DerivePointerAlignment: false
+PointerAlignment: Left
+
 AllowShortFunctionsOnASingleLine: Empty
 AllowShortIfStatementsOnASingleLine: WithoutElse
+
+AlignAfterOpenBracket: BlockIndent
+BinPackParameters: false
+AllowAllParametersOfDeclarationOnNextLine: false
