@@ -174,7 +174,13 @@ require('blink.cmp').setup({
     enabled = true,
   },
   enabled = function() return not vim.tbl_contains({ "txt", "markdown" }, vim.bo.filetype) end,
+  completion = {
+    menu = {
+      auto_show_delay_ms = 200,
+    }
+  }
 })
+
 
 -- Formatting
 -- symlink formatting configs to home directory
