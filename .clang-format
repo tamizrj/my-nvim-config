@@ -1,11 +1,14 @@
 BasedOnStyle: LLVM
+
 IndentWidth: 4
 IndentAccessModifiers: false
 AccessModifierOffset: -4
+UseTab: Never
 
 DerivePointerAlignment: false
 PointerAlignment: Left
 
+AllowShortBlocksOnASingleLine: true
 AllowShortFunctionsOnASingleLine: Empty
 AllowShortIfStatementsOnASingleLine: WithoutElse
 
