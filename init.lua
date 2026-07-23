@@ -43,9 +43,10 @@ vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
-vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>', { desc = 'Clear highlights' })
-vim.keymap.set('n', '<leader>cr', '<cmd>%s/\\r//g<CR>', { desc = 'Delete [C]arraige [R]eturn' })
-vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
+vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>', { desc = 'clear highlights' })
+vim.keymap.set('n', '<leader>cr', '<cmd>%s/\\r//g<CR>', { desc = 'delete [c]arraige [r]eturn' })
+vim.keymap.set('n', '<leader>w', '<cmd>w<CR>', { desc = '[w]rite to buffer' })
+vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'exit terminal mode' })
 
 -- ------------------------ AUTOCOMMANDS ----------------------------
 
