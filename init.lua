@@ -45,7 +45,7 @@ vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 --  See `:help hlsearch`
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>', { desc = 'clear highlights' })
 vim.keymap.set('n', '<leader>cr', '<cmd>%s/\\r//g<CR>', { desc = 'delete [c]arraige [r]eturn' })
-vim.keymap.set('n', '<leader>w', '<cmd>w<CR>', { desc = '[w]rite to buffer' })
+vim.keymap.set('n', '<leader>w', '<cmd>w<CR>', { desc = '[w]rite buffer' })
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'exit terminal mode' })
 
 -- ------------------------ AUTOCOMMANDS ----------------------------
