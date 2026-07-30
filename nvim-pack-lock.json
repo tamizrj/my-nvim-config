@@ -45,6 +45,10 @@
       "rev": "d224a1920728ba129880efc700d4a0180ac4ecbb",
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
+    "nvim-numbertoggle": {
+      "rev": "704e098c7f056f0dae9407d8651edd3d183f3fff",
+      "src": "https://github.com/sitiom/nvim-numbertoggle"
+    },
     "nvim-treesitter": {
       "rev": "4916d6592ede8c07973490d9322f187e07dfefac",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter",

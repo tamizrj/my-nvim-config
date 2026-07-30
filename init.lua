@@ -86,6 +86,7 @@ vim.pack.add({
   gh 'NMAC427/guess-indent.nvim',
   gh 'j-hui/fidget.nvim',
   gh 'lukas-reineke/indent-blankline.nvim',
+  gh 'sitiom/nvim-numbertoggle'
 })
 
 require('ibl').setup({
