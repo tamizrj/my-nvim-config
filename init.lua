@@ -59,6 +59,35 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
+-- smart relative number lines
+-- from: https://github.com/sitiom/nvim-numbertoggle/blob/main/plugin/numbertoggle.lua
+local numbertoggle_group = vim.api.nvim_create_augroup("numbertoggle", {})
+
+-- toggle on rnu
+vim.api.nvim_create_autocmd({ "BufEnter", "FocusGained", "InsertLeave", "CmdlineLeave", "WinEnter" }, {
+  pattern = "*",
+  group = numbertoggle_group,
+  callback = function()
+    if vim.o.nu and vim.api.nvim_get_mode().mode ~= "i" then
+      vim.opt.relativenumber = true
+    end
+  end,
+})
+
+-- toggle off rnu
+vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost", "InsertEnter", "CmdlineEnter", "WinLeave" }, {
+  pattern = "*",
+  group = numbertoggle_group,
+  callback = function()
+    if vim.o.nu then
+      vim.opt.relativenumber = false
+      if not vim.tbl_contains({ "@", "-" }, vim.v.event.cmdtype) then
+        vim.cmd "redraw"
+      end
+    end
+  end,
+})
+
 -- -------------------------- PLUGINS ------------------------------
 
 local function gh(repo)
@@ -85,8 +114,7 @@ vim.pack.add({
   gh 'stevearc/conform.nvim',
   gh 'NMAC427/guess-indent.nvim',
   gh 'j-hui/fidget.nvim',
-  gh 'lukas-reineke/indent-blankline.nvim',
-  gh 'sitiom/nvim-numbertoggle'
+  gh 'lukas-reineke/indent-blankline.nvim'
 })
 
 require('ibl').setup({
