@@ -102,9 +102,20 @@ vim.api.nvim_create_user_command('PackSync', function()
   vim.pack.update(nil, { target = 'lockfile' })
 end, {})
 
-vim.api.nvim_create_user_command('PackDelete', function()
-  print('bro just use vim.pack.del()')
-end, {})
+vim.api.nvim_create_user_command(
+  'PackDelete',
+  function(opts)
+    -- opts.fargs[1] captures the first whitespace-separated argument
+    local package_name = opts.fargs[1]
+
+    -- vim.pack.del expects a table of strings or a single string
+    vim.pack.del({ package_name })
+  end,
+  {
+    nargs = 1,
+    desc = 'Deletes a native Neovim package from disk and lockfile',
+  }
+)
 
 vim.pack.add({
   gh 'nvim-mini/mini.nvim',
