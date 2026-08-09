@@ -41,7 +41,7 @@ vim.o.foldlevelstart = 99
 vim.o.list = true
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
--- --------------------------- GENERAL KEYMAPS ----------------------------
+-- -------------------------- KEYMAPS ----------------------------
 
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
@@ -52,6 +52,10 @@ vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'exit terminal mode' }
 
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'expand [e]rror' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = '[q]uickfix list' })
+
+vim.keymap.set('n', '<CR>', 'van', { remap = true, desc = "init incremental selection" })
+vim.keymap.set('x', '<CR>', 'an', { remap = true, desc = "expand selection" })
+vim.keymap.set('x', '<bs>', 'in', { remap = true, desc = "shrink selection" })
 
 -- ------------------------ AUTOCOMMANDS ----------------------------
 
@@ -159,16 +163,24 @@ require('mini.pairs').setup()
 require('mini.surround').setup()
 require('mini.tabline').setup()
 require('mini.icons').setup()
-require('mini.ai').setup({
-  -- NOTE: Avoid conflicts with the built-in incremental selection mappings
-  -- (see `:help treesitter-incremental-selection`)
-  mappings = {
-    around_next = 'aa',
-    inside_next = 'ii',
-  },
-  n_lines = 500,
-})
 require('mini.statusline').setup()
+
+local gen_spec = require('mini.ai').gen_spec
+require('mini.ai').setup({
+  n_lines = 500,
+  mappings = {
+    around_next = 'aN',
+    inside_next = 'iN',
+  },
+  custom_textobjects = {
+    f = gen_spec.treesitter({ a = '@function.outer', i = '@function.inner' }),
+    c = gen_spec.treesitter({ a = '@class.outer', i = '@class.inner' }),
+    o = gen_spec.treesitter({
+      a = { '@conditional.outer', '@loop.outer' },
+      i = { '@conditional.inner', '@loop.inner' }
+    }),
+  }
+})
 
 local miniclue = require('mini.clue')
 miniclue.setup({
@@ -233,7 +245,6 @@ require('blink.cmp').setup({
     }
   }
 })
-
 
 -- Formatting
 -- symlink formatting configs to home directory
@@ -376,9 +387,11 @@ vim.diagnostic.config({
   },
 })
 
-
 -- --------------------------- TREESITTER ----------------------------
-vim.pack.add({ { src = gh 'nvim-treesitter/nvim-treesitter', version = 'main' } })
+vim.pack.add({
+  gh 'nvim-treesitter/nvim-treesitter',
+  gh 'nvim-treesitter/nvim-treesitter-textobjects'
+})
 
 -- 1. Configure the plugin to manage your parser downloads
 require('nvim-treesitter').setup({
@@ -391,6 +404,21 @@ require('nvim-treesitter').setup({
     "markdown_inline"
   },
   auto_install = true,
+  textobjects = {
+    select = { lookahead = true },
+    move = {
+      enable = true,
+      set_jumps = true,             -- Adds these movements to your jumplist (<C-o> to go back)
+      goto_next_start = {
+        ["]m"] = "@function.outer", -- Jump to the start of the next function
+        ["]]"] = "@class.outer",    -- Jump to the start of the next class
+      },
+      goto_previous_start = {
+        ["[m"] = "@function.outer", -- Jump to the start of the previous function
+        ["[["] = "@class.outer",    -- Jump to the start of the previous class
+      },
+    },
+  },
 })
 
 -- 2. Trigger native highlighting, folding, and indentation
