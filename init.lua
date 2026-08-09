@@ -53,9 +53,19 @@ vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'exit terminal mode' }
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'expand [e]rror' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = '[q]uickfix list' })
 
-vim.keymap.set('n', '<CR>', 'van', { remap = true, desc = "init incremental selection" })
-vim.keymap.set('x', '<CR>', 'an', { remap = true, desc = "expand selection" })
-vim.keymap.set('x', '<bs>', 'in', { remap = true, desc = "shrink selection" })
+vim.keymap.set('n', '<CR>', function()
+  local jumps = vim.v.count1
+  vim.cmd('normal! v')
+  require('vim.treesitter._select').select_parent(jumps)
+end, { desc = "init incremental selection" })
+
+vim.keymap.set('x', '<CR>', function()
+  require('vim.treesitter._select').select_parent(vim.v.count1)
+end, { desc = "expand selection" })
+
+vim.keymap.set('x', '<BS>', function()
+  require('vim.treesitter._select').select_child(vim.v.count1)
+end, { desc = "shrink selection" })
 
 -- ------------------------ AUTOCOMMANDS ----------------------------
 
@@ -168,10 +178,6 @@ require('mini.statusline').setup()
 local gen_spec = require('mini.ai').gen_spec
 require('mini.ai').setup({
   n_lines = 500,
-  mappings = {
-    around_next = 'aN',
-    inside_next = 'iN',
-  },
   custom_textobjects = {
     f = gen_spec.treesitter({ a = '@function.outer', i = '@function.inner' }),
     c = gen_spec.treesitter({ a = '@class.outer', i = '@class.inner' }),
