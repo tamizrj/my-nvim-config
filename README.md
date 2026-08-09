@@ -14,10 +14,7 @@
 - diagnostic quickfix list
 
 ## TODOs
-Priority order:
-- [ ] terminal solution
 - [ ] solve issues with `#include`s and `bits/stdc++.h`
     - `bits/stdc++.h` not recognised on macOS
     - specific `#include`s auto added even when `bits/stdc++.h` is already there
-- [ ] simplify treesitter implementation
 
