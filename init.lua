@@ -117,6 +117,15 @@ vim.api.nvim_create_user_command(
   }
 )
 
+vim.api.nvim_create_user_command("PackClean", function()
+  for _, p in ipairs(vim.pack.get()) do
+    if not p.active then
+      vim.pack.del({ p.spec.name })
+      print("Removed inactive plugin: " .. p.spec.name)
+    end
+  end
+end, {})
+
 vim.pack.add({
   gh 'nvim-mini/mini.nvim',
   gh 'lewis6991/gitsigns.nvim',
