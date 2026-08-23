@@ -72,6 +72,8 @@ vim.keymap.set('n', '<C-j>', '<C-w>j', { desc = 'move to lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w>k', { desc = 'move to upper window' })
 vim.keymap.set('n', '<C-l>', '<C-w>l', { desc = 'move to right window' })
 
+vim.keymap.set('n', '-', '<cmd>Oil<CR>', { desc = 'open Oil at cwd' })
+
 -- ------------------------ AUTOCOMMANDS ----------------------------
 
 -- highlight on yank
