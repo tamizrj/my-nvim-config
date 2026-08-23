@@ -151,9 +151,19 @@ vim.pack.add({
   gh 'stevearc/conform.nvim',
   gh 'NMAC427/guess-indent.nvim',
   gh 'j-hui/fidget.nvim',
-  gh 'lukas-reineke/indent-blankline.nvim'
+  gh 'lukas-reineke/indent-blankline.nvim',
+  gh 'stevearc/oil.nvim',
+  gh 'refractalize/oil-git-status.nvim',
+    gh 'JezerM/oil-lsp-diagnostics.nvim'
 })
 
+require('oil').setup({
+  win_options = {
+    signcolumn = "yes:2",
+  },
+})
+require('oil-git-status').setup({})
+require('oil-lsp-diagnostics').setup({})
 require('ibl').setup({
   scope = {
     enabled = true,
@@ -283,7 +293,7 @@ vim.keymap.set('n', '<leader>f', function()
   cf.format({ async = true, lsp_format = 'fallback' })
 end, { desc = '[f]ormat buffer' })
 
-local formatOnSave = true
+local formatOnSave = false
 if formatOnSave then
   cf.setup({
     format_on_save = {
