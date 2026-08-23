@@ -67,6 +67,11 @@ vim.keymap.set('x', '<BS>', function()
   require('vim.treesitter._select').select_child(vim.v.count1)
 end, { desc = "shrink selection" })
 
+vim.keymap.set('n', '<C-h>', '<C-w>h', { desc = 'move to left window' })
+vim.keymap.set('n', '<C-j>', '<C-w>j', { desc = 'move to lower window' })
+vim.keymap.set('n', '<C-k>', '<C-w>k', { desc = 'move to upper window' })
+vim.keymap.set('n', '<C-l>', '<C-w>l', { desc = 'move to right window' })
+
 -- ------------------------ AUTOCOMMANDS ----------------------------
 
 -- highlight on yank
