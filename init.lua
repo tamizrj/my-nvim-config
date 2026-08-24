@@ -161,7 +161,7 @@ vim.pack.add({
   gh 'lukas-reineke/indent-blankline.nvim',
   gh 'stevearc/oil.nvim',
   gh 'refractalize/oil-git-status.nvim',
-    gh 'JezerM/oil-lsp-diagnostics.nvim'
+  gh 'JezerM/oil-lsp-diagnostics.nvim'
 })
 
 require('oil').setup({
@@ -428,7 +428,6 @@ require('nvim-treesitter').setup({
   },
   auto_install = true,
   textobjects = {
-    select = { lookahead = true },
     move = {
       enable = true,
       set_jumps = true,             -- Adds these movements to your jumplist (<C-o> to go back)
@@ -443,6 +442,22 @@ require('nvim-treesitter').setup({
     },
   },
 })
+
+-- sets ]<letter> and [<letter> keymaps for a given object
+local function set_move_keymaps(object, letter)
+  -- next keymaps prefixed with ]
+  vim.keymap.set({ "n", "x", "o" }, "]" .. letter, function()
+    require("nvim-treesitter-textobjects.move").goto_next_start('@' .. object .. '.outer', 'textobjects')
+  end, { desc = "Go to next " .. object })
+
+  -- prev keymaps prefixed with [
+  vim.keymap.set({ "n", "x", "o" }, "[" .. letter, function()
+    require("nvim-treesitter-textobjects.move").goto_previous_start('@' .. object .. '.outer', 'textobjects')
+  end, { desc = "Go to next " .. object })
+end
+
+set_move_keymaps('function', 'm')
+set_move_keymaps('class', 'c')
 
 -- 2. Trigger native highlighting, folding, and indentation
 vim.api.nvim_create_autocmd('FileType', {
