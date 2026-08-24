@@ -51,7 +51,7 @@ vim.keymap.set('n', '<leader>w', '<cmd>w<CR>', { desc = '[w]rite buffer' })
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'exit terminal mode' })
 
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'expand [e]rror' })
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = '[q]uickfix list' })
+vim.keymap.set('n', '<leader>q', vim.diagnostic.setqflist, { desc = '[q]uickfix list' })
 
 vim.keymap.set('n', '<CR>', function()
   local jumps = vim.v.count1
@@ -205,8 +205,8 @@ require('mini.ai').setup({
   }
 })
 
-local miniclue = require('mini.clue')
-miniclue.setup({
+local clue = require('mini.clue')
+clue.setup({
   triggers = {
     -- Leader triggers
     { mode = { 'n', 'x' }, keys = '<Leader>' },
@@ -238,19 +238,42 @@ miniclue.setup({
 
   clues = {
     -- Enhance this by adding descriptions for <Leader> mapping groups
-    miniclue.gen_clues.square_brackets(),
-    miniclue.gen_clues.builtin_completion(),
-    miniclue.gen_clues.g(),
-    miniclue.gen_clues.marks(),
-    miniclue.gen_clues.registers(),
-    miniclue.gen_clues.windows(),
-    miniclue.gen_clues.z(),
+    clue.gen_clues.square_brackets(),
+    clue.gen_clues.builtin_completion(),
+    clue.gen_clues.g(),
+    clue.gen_clues.marks(),
+    clue.gen_clues.registers(),
+    clue.gen_clues.windows(),
+    clue.gen_clues.z(),
   },
   window = {
     width = 'auto',
     delay = 0,
   },
 })
+
+require('mini.pick').setup({
+  window = {
+    config = function()
+      -- center the window
+      local height = math.floor(0.618 * vim.o.lines)
+      local width = math.floor(0.618 * vim.o.columns)
+      return {
+        anchor = 'NW',
+        height = height,
+        width = width,
+        row = math.floor(0.5 * (vim.o.lines - height)),
+        col = math.floor(0.5 * (vim.o.columns - width)),
+        border = 'double'
+      }
+    end
+  }
+})
+local pick = require('mini.pick')
+vim.keymap.set('n', '<leader>pf', pick.builtin.files, { desc = '[p]ick [f]iles' })
+vim.keymap.set('n', '<leader>pg', pick.builtin.grep_live, { desc = '[p]ick w/ [g]rep' })
+vim.keymap.set('n', '<leader>pb', pick.builtin.buffers, { desc = '[p]ick [b]uffers' })
+vim.keymap.set('n', '<leader>ph', pick.builtin.help, { desc = '[p]ick [h]elp tags' })
 
 -- Autocomplete
 require('blink.cmp').setup({
@@ -382,7 +405,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     map('grr', vim.lsp.buf.references, '[g]o to [r]eferences')
     map('grn', vim.lsp.buf.rename, '[r]e[n]ame symbol')
     map('gra', vim.lsp.buf.code_action, 'code [a]ction')
-    miniclue.ensure_buf_triggers()
+    clue.ensure_buf_triggers()
   end,
 })
 
