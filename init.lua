@@ -53,11 +53,11 @@ vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'exit terminal mode' }
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'expand [e]rror' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setqflist, { desc = '[q]uickfix list' })
 
-vim.keymap.set('n', '<CR>', function()
-  local jumps = vim.v.count1
-  vim.cmd('normal! v')
-  require('vim.treesitter._select').select_parent(jumps)
-end, { desc = "init incremental selection" })
+-- vim.keymap.set('n', '<CR>', function()
+--   local jumps = vim.v.count1
+--   vim.cmd('normal! v')
+--   require('vim.treesitter._select').select_parent(jumps)
+-- end, { desc = "init incremental selection" })
 
 vim.keymap.set('x', '<CR>', function()
   require('vim.treesitter._select').select_parent(vim.v.count1)
@@ -137,7 +137,7 @@ vim.api.nvim_create_user_command('PackDelete', function(opts)
   end,
   {
     nargs = 1,
-    desc = 'Deletes a native Neovim package from disk and lockfile',
+    desc = 'Deletes a package from disk and lockfile',
   }
 )
 
@@ -191,6 +191,23 @@ require('mini.surround').setup()
 require('mini.tabline').setup()
 require('mini.icons').setup()
 require('mini.statusline').setup()
+require('mini.sessions').setup()
+require('mini.starter').setup({
+  -- default, excluding '-' (bound to :Oil)
+  query_updaters = 'abcdefghijklmnopqrstuvwxyz0123456789_.',
+  silent = true,
+  header =[[
+ ________
+< neovim >
+ --------
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+]],
+  footer = 'by Tamiz'
+})
 
 local gen_spec = require('mini.ai').gen_spec
 require('mini.ai').setup({
