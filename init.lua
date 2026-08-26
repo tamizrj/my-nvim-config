@@ -191,15 +191,21 @@ require('mini.surround').setup()
 require('mini.tabline').setup()
 require('mini.icons').setup()
 require('mini.statusline').setup()
+
 require('mini.sessions').setup()
+vim.api.nvim_create_user_command('CreateSession', function(opts)
+  local session_name = opts.fargs[1]
+  MiniSessions.write(session_name)
+end, { nargs = 1, desc = 'Make session with mini.sessions' })
+
 require('mini.starter').setup({
   -- default, excluding '-' (bound to :Oil)
   query_updaters = 'abcdefghijklmnopqrstuvwxyz0123456789_.',
   silent = true,
-  header =[[
- ________
-< neovim >
- --------
+  header = [[
+ _______
+ < moo >
+ -------
         \   ^__^
          \  (oo)\_______
             (__)\       )\/\
