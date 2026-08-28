@@ -1,0 +1,24 @@
+{
+  "CP Template": {
+    "prefix": "!cp",
+    "body": [
+      "#include <iostream>",
+      "",
+      "#define newl '\\n'",
+      "#define DEBUG(x) (cout << #x << \" = \" << (x) << endl)",
+      "",
+      "using ll = long long;",
+      "using namespace std;",
+      "",
+      "int main(void) {",
+      "    ios_base::sync_with_stdio(false);",
+      "    cin.tie(NULL);",
+      "    ",
+      "    $0",
+      "",
+      "    return 0;",
+      "}"
+    ],
+    "description": "Competitive Programming Boilerplate"
+  }
+}
