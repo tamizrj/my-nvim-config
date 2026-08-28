@@ -203,20 +203,14 @@ require('mini.starter').setup({
   query_updaters = 'abcdefghijklmnopqrstuvwxyz0123456789_.',
   silent = true,
   header = [[
-                        .       .
-                       / `.   .' \\
-               .---.  <    > <    >  .---.
-               |    \\  \\ - ~ ~ - /  /    |
-                ~-..-~             ~-..-~
-            \\~~~\\.'                    `./~~~/
-  .-~~^-.    \\__/                        \\__/
-.'  O    \\     /               /       \\  \\
-_____,    `._.'               |         }  \\/~~~/
-`----.          /       }     |        /    \\__/
-      `-.      |       /      |       /      `. ,~~|
-          ~-.__|      /_ - ~ ^|      /- _      `..-'   f: f:
-               |     /        |     /     ~-.     `-. _||_||_
-               |_____|        |_____|         ~ - . _ _ _ _ _>
+                                             
+      ████ ██████           █████      ██
+     ███████████             █████ 
+     █████████ ███████████████████ ███   ███████████
+    █████████  ███    █████████████ █████ ██████████████
+   █████████ ██████████ █████████ █████ █████ ████ █████
+ ███████████ ███    ███ █████████ █████ █████ ████ █████
+██████  █████████████████████ ████ █████ █████ ████ ██████
 ]],
   footer = 'tamizrj'
 })
@@ -505,7 +499,7 @@ local function set_move_keymaps(object, letter)
   -- prev keymaps prefixed with [
   vim.keymap.set({ "n", "x", "o" }, "[" .. letter, function()
     require("nvim-treesitter-textobjects.move").goto_previous_start('@' .. object .. '.outer', 'textobjects')
-  end, { desc = "Go to next " .. object })
+  end, { desc = "Go to previous " .. object })
 end
 
 set_move_keymaps('function', 'm')
