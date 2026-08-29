@@ -193,10 +193,15 @@ require('mini.icons').setup()
 require('mini.statusline').setup()
 
 require('mini.sessions').setup()
-vim.api.nvim_create_user_command('CreateSession', function(opts)
+vim.api.nvim_create_user_command('SeshCreate', function(opts)
   local session_name = opts.fargs[1]
   MiniSessions.write(session_name)
 end, { nargs = 1, desc = 'Make session with mini.sessions' })
+
+vim.api.nvim_create_user_command('SeshDel', function(opts)
+  local session_name = opts.fargs[1]
+  MiniSessions.delete(session_name)
+end, { nargs = 1, desc = 'Delete session with mini.sessions' })
 
 require('mini.starter').setup({
   -- default, excluding '-' (bound to :Oil)
