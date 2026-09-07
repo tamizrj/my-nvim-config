@@ -2,7 +2,7 @@
   "CP Template": {
     "prefix": "!cp",
     "body": [
-      "#include <iostream>",
+      "#include <bits/stdc++.h>",
       "",
       "#define newl '\\n'",
       "#define DEBUG(x) (cout << #x << \" = \" << (x) << endl)",
@@ -13,7 +13,7 @@
       "int main(void) {",
       "    ios_base::sync_with_stdio(false);",
       "    cin.tie(NULL);",
-      "    ",
+      "",
       "    $0",
       "",
       "    return 0;",
