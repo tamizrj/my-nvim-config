@@ -19,5 +19,7 @@
 - [x] solve issues with `#include`s and `bits/stdc++.h`
     - `bits/stdc++.h` not recognised on macOS
     - specific `#include`s auto added even when `bits/stdc++.h` is already there
-- [ ] figure out macro stuff
+- [X] figure out macro stuff
 - [ ] look into file trees
+- [ ] implement mini.extra pickers
+- [ ] look into mini.git and mini.diff to remove gitsigns

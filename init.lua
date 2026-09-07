@@ -265,7 +265,8 @@ clue.setup({
   },
 
   clues = {
-    -- Enhance this by adding descriptions for <Leader> mapping groups
+    { mode = 'n', keys = '<Leader>p', desc = '+pick' },
+    { mode = 'n', keys = '<Leader>c', desc = '+clear' },
     clue.gen_clues.square_brackets(),
     clue.gen_clues.builtin_completion(),
     clue.gen_clues.g(),
@@ -409,7 +410,11 @@ vim.lsp.config('lua_ls', {
 })
 
 vim.lsp.config('clangd', {
-  cmd = { 'clangd', '--background-index', '--function-arg-placeholders=0' },
+  cmd = {
+    'clangd',
+    '--function-arg-placeholders=0',
+    '--header-insertion=never'
+  },
 })
 
 require('mason-lspconfig').setup({
