@@ -5,13 +5,21 @@ IndentAccessModifiers: false
 AccessModifierOffset: -4
 UseTab: Never
 
-DerivePointerAlignment: false
 PointerAlignment: Left
+DerivePointerAlignment: false
 
-AllowShortBlocksOnASingleLine: true
-AllowShortFunctionsOnASingleLine: Empty
-AllowShortIfStatementsOnASingleLine: WithoutElse
+# Single-line control statements
+AllowShortIfStatementsOnASingleLine: AllIfsAndElse
+AllowShortLoopsOnASingleLine: true
 
+# Spaces inside braced lists
+Cpp11BracedListStyle: false
+
+# Function parameter formatting
+BinPackParameters: OnePerLine
 AlignAfterOpenBracket: BlockIndent
-BinPackParameters: false
-AllowAllParametersOfDeclarationOnNextLine: false
+AllowAllParametersOfDeclarationOnNextLine: true
+
+# Long expression formatting
+BreakBeforeBinaryOperators: NonAssignment
+AlignOperands: Align

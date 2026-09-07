@@ -12,10 +12,10 @@
 - IBL scope lines
 - custom status line (very premium look)
 - diagnostic quickfix list
+- fuzzy finding iwth mini.pick
 
 ## TODOs
 - [x] solve issues with `#include`s and `bits/stdc++.h`
     - `bits/stdc++.h` not recognised on macOS
     - specific `#include`s auto added even when `bits/stdc++.h` is already there
-- [ ] telescope
-
+- [ ] figure out macro stuff
