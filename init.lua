@@ -121,7 +121,7 @@ local function gh(repo)
 end
 
 vim.api.nvim_create_user_command('PackUpdate', function()
-  vim.pack.update({})
+  vim.pack.update()
 end, {})
 
 vim.api.nvim_create_user_command('PackSync', function()
@@ -293,7 +293,7 @@ require('mini.pick').setup({
         width = width,
         row = math.floor(0.5 * (vim.o.lines - height)),
         col = math.floor(0.5 * (vim.o.columns - width)),
-        border = 'double'
+        border = 'bold'
       }
     end
   }
