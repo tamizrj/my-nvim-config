@@ -525,6 +525,7 @@ vim.diagnostic.config({
     prefix = '●',
   },
   signs = {
+    priority = 3000,
     text = {
       [vim.diagnostic.severity.ERROR] = 'E',
       [vim.diagnostic.severity.WARN] = 'W',
