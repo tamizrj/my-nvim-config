@@ -57,12 +57,12 @@ vim.keymap.set('n', '<leader>ts', function()
   vim.cmd.split()
   vim.cmd.term()
   vim.api.nvim_win_set_height(0, 15)
-end, {desc = '[t]erm [s]plit'})
+end, { desc = '[t]erm [s]plit' })
 
 vim.keymap.set('n', '<leader>tv', function()
   vim.cmd.vsplit()
   vim.cmd.term()
-end, {desc = '[t]erminal [v]split'})
+end, { desc = '[t]erminal [v]split' })
 
 -- vim.keymap.set('n', '<CR>', function()
 --   local jumps = vim.v.count1
@@ -298,9 +298,10 @@ clue.setup({
   },
 
   clues = {
-    { mode = 'n', keys = '<Leader>p', desc = '+pick' },
-    { mode = 'n', keys = '<Leader>c', desc = '+clear' },
-    { mode = 'n', keys = '<Leader>t', desc = '+term' },
+    { mode = 'n', keys = '<Leader>p',  desc = '+pick' },
+    { mode = 'n', keys = '<Leader>pg', desc = '+git' },
+    { mode = 'n', keys = '<Leader>c',  desc = '+clear' },
+    { mode = 'n', keys = '<Leader>t',  desc = '+term' },
     clue.gen_clues.square_brackets(),
     clue.gen_clues.builtin_completion(),
     clue.gen_clues.g(),
@@ -333,12 +334,39 @@ require('mini.pick').setup({
   }
 })
 local pick = require('mini.pick')
-vim.keymap.set('n', '<leader>pf', pick.builtin.files, { desc = '[p]ick [f]iles' })
-vim.keymap.set('n', '<leader>pg', pick.builtin.grep_live, { desc = '[p]ick w/ [g]rep' })
-vim.keymap.set('n', '<leader>pb', pick.builtin.buffers, { desc = '[p]ick [b]uffers' })
-vim.keymap.set('n', '<leader>ph', pick.builtin.help, { desc = '[p]ick [h]elp tags' })
-vim.keymap.set('n', '<leader>pH', function() require('mini.extra').pickers.hipatterns() end,
-  { desc = '[p]ick [H]ipatterns' })
+local extra = require('mini.extra').pickers
+
+-- Builtins
+vim.keymap.set('n', '<leader>pf', pick.builtin.files, { desc = '[f]iles' })
+vim.keymap.set('n', '<leader>p/', pick.builtin.grep_live, { desc = 'live grep' })
+vim.keymap.set('n', '<leader>pb', pick.builtin.buffers, { desc = '[b]uffers' })
+vim.keymap.set('n', '<leader>ph', pick.builtin.help, { desc = '[h]elp tags' })
+
+-- Core
+vim.keymap.set('n', '<leader>pH', extra.hipatterns, { desc = '[H]ipatterns' })
+vim.keymap.set('n', '<leader>p:', extra.history, { desc = '[:] history' })
+vim.keymap.set('n', '<leader>pc', extra.commands, { desc = '[c]ommands' })
+vim.keymap.set('n', '<leader>po', extra.oldfiles, { desc = '[o]ld files' })
+vim.keymap.set('n', '<leader>pm', extra.marks, { desc = '[m]arks' })
+vim.keymap.set('n', '<leader>pr', extra.registers, { desc = '[r]egisters' })
+vim.keymap.set('n', '<leader>pO', extra.options, { desc = '[O]ptions' })
+vim.keymap.set('n', '<leader>pK', extra.keymaps, { desc = '[K]eymaps' })
+vim.keymap.set('n', '<leader>pd', extra.diagnostic, { desc = '[d]iagnostics' })
+vim.keymap.set('n', '<leader>pt', extra.treesitter, { desc = '[t]reesitter' })
+vim.keymap.set('n', '<leader>pz', extra.spellsuggest, { desc = '[z]= spell' })
+vim.keymap.set('n', '<leader>pl', function() extra.list({ scope = 'quickfix' }) end,
+  { desc = '[l] quickfix list' })
+vim.keymap.set('n', '<leader>pL', function() extra.list({ scope = 'location' }) end,
+  { desc = '[L]ocation list' })
+vim.keymap.set('n', '<leader>pP', extra.colorschemes, { desc = '[P]alette (colorscheme)' })
+
+-- Git
+vim.keymap.set('n', '<leader>pgc', extra.git_commits, { desc = '[c]ommits' })
+vim.keymap.set('n', '<leader>pgb', extra.git_branches, { desc = '[b]ranches' })
+vim.keymap.set('n', '<leader>pgf', extra.git_files, { desc = '[f]iles' })
+vim.keymap.set('n', '<leader>pgh', extra.git_hunks, { desc = '[h]unks' })
+vim.keymap.set('n', '<leader>pgs', function() extra.git_hunks({ scope = 'staged' }) end,
+  { desc = '[s]taged hunks' })
 
 -- Autocomplete
 require('blink.cmp').setup({
@@ -454,7 +482,7 @@ vim.lsp.config('clangd', {
 })
 
 require('mason-lspconfig').setup({
-  automatic_enable = true, -- runs vim.lsp.enable()
+  automatic_enable = true,   -- runs vim.lsp.enable()
 })
 
 -- LSP Keymaps Create an augroup to ensure this doesn't get duplicated if you reload your config
@@ -469,9 +497,13 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
     -- 2. Define your keymaps
     map('K', vim.lsp.buf.hover, 'Hover documentation')
-    map('grd', vim.lsp.buf.definition, '[g]o to [d]efinition')
-    map('grD', vim.lsp.buf.declaration, '[g]o to [D]eclaration')
-    map('grr', vim.lsp.buf.references, '[g]o to [r]eferences')
+    map('grd', function() extra.lsp({ scope = 'definition' }) end, '[g]o to [d]efinition')
+    map('grD', function() extra.lsp({ scope = 'declaration' }) end, '[g]o to [D]eclaration')
+    map('grr', function() extra.lsp({ scope = 'references' }) end, '[g]o to [r]eferences')
+    map('gri', function() extra.lsp({ scope = 'implementation' }) end, '[g]o to [i]mplementation')
+    map('grT', function() extra.lsp({ scope = 'type_definition' }) end, '[g]o to [T]ype definition')
+    map('gsd', function() extra.lsp({ scope = 'document_symbol' }) end, '[g]o to buffer [s]ymbol [d]efinitions')
+    map('gsl', function() extra.lsp({ scope = 'workspace_symbol_live' }) end, '[g]o to workspace [s]ymbols (live)')
     map('grn', vim.lsp.buf.rename, '[r]e[n]ame symbol')
     map('gra', vim.lsp.buf.code_action, 'code [a]ction')
     clue.ensure_buf_triggers()
@@ -522,14 +554,14 @@ require('nvim-treesitter').setup({
   textobjects = {
     move = {
       enable = true,
-      set_jumps = true,             -- Adds these movements to your jumplist (<C-o> to go back)
+      set_jumps = true,                     -- Adds these movements to your jumplist (<C-o> to go back)
       goto_next_start = {
-        ["]m"] = "@function.outer", -- Jump to the start of the next function
-        ["]]"] = "@class.outer",    -- Jump to the start of the next class
+        ["]m"] = "@function.outer",         -- Jump to the start of the next function
+        ["]]"] = "@class.outer",            -- Jump to the start of the next class
       },
       goto_previous_start = {
-        ["[m"] = "@function.outer", -- Jump to the start of the previous function
-        ["[["] = "@class.outer",    -- Jump to the start of the previous class
+        ["[m"] = "@function.outer",         -- Jump to the start of the previous function
+        ["[["] = "@class.outer",            -- Jump to the start of the previous class
       },
     },
   },
