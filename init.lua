@@ -53,9 +53,16 @@ vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'exit terminal mode' }
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'expand [e]rror' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setqflist, { desc = '[q]uickfix list' })
 
--- vim.keymap.set('n', '<leader>ts', function()
---
--- end, {desc = '[t]erminal [s]plit'})
+vim.keymap.set('n', '<leader>ts', function()
+  vim.cmd.split()
+  vim.cmd.term()
+  vim.api.nvim_win_set_height(0, 15)
+end, {desc = '[t]erm [s]plit'})
+
+vim.keymap.set('n', '<leader>tv', function()
+  vim.cmd.vsplit()
+  vim.cmd.term()
+end, {desc = '[t]erminal [v]split'})
 
 -- vim.keymap.set('n', '<CR>', function()
 --   local jumps = vim.v.count1
@@ -207,7 +214,9 @@ require('mini.icons').setup()
 require('mini.statusline').setup()
 require('mini.git').setup()
 require('mini.diff').setup({
-  view = { style = 'sign' }
+  view = {
+    style = 'sign',
+  }
 })
 
 require('mini.sessions').setup()
@@ -291,6 +300,7 @@ clue.setup({
   clues = {
     { mode = 'n', keys = '<Leader>p', desc = '+pick' },
     { mode = 'n', keys = '<Leader>c', desc = '+clear' },
+    { mode = 'n', keys = '<Leader>t', desc = '+term' },
     clue.gen_clues.square_brackets(),
     clue.gen_clues.builtin_completion(),
     clue.gen_clues.g(),

@@ -21,9 +21,7 @@
     - specific `#include`s auto added even when `bits/stdc++.h` is already there
 - [X] figure out macro stuff
 - [ ] look into file trees
-- [ ] look into mini.git and mini.diff to remove gitsigns
+- [X] look into mini.git and mini.diff to remove gitsigns
 - [X] implement mini.extra pickers
 - [X] mini.hipatterns (and possibly extended with mini.extra?)
-- terminal improvements
-    - keymaps for vertical and horizontal terminal
-    - terminal autocommands for
+- [X] keymaps for vertical and horizontal terminal
