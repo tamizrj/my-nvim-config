@@ -53,6 +53,10 @@ vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'exit terminal mode' }
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'expand [e]rror' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setqflist, { desc = '[q]uickfix list' })
 
+-- vim.keymap.set('n', '<leader>ts', function()
+--
+-- end, {desc = '[t]erminal [s]plit'})
+
 -- vim.keymap.set('n', '<CR>', function()
 --   local jumps = vim.v.count1
 --   vim.cmd('normal! v')
@@ -185,6 +189,17 @@ require('onedark').setup({
 })
 require('onedark').load()
 
+local gen_hi = require('mini.extra').gen_highlighter
+require('mini.hipatterns').setup({
+  highlighters = {
+    hex_color = require('mini.hipatterns').gen_highlighter.hex_color(),
+    fixme = gen_hi.words({ 'FIXME', 'Fixme', 'fixme' }, 'MiniHipatternsFixme'),
+    hack  = gen_hi.words({ 'HACK', 'Hack', 'hack' }, 'MiniHipatternsHack'),
+    todo  = gen_hi.words({ 'TODO', 'Todo', 'todo' }, 'MiniHipatternsTodo'),
+    note  = gen_hi.words({ 'NOTE', 'Note', 'note' }, 'MiniHipatternsNote'),
+  }
+})
+
 -- Mini Setup
 require('mini.pairs').setup()
 require('mini.surround').setup()
@@ -221,9 +236,15 @@ require('mini.starter').setup({
 })
 
 local gen_spec = require('mini.ai').gen_spec
+local gen_ai_spec = require('mini.extra').gen_ai_spec
 require('mini.ai').setup({
   n_lines = 500,
   custom_textobjects = {
+    B = gen_ai_spec.buffer(),
+    D = gen_ai_spec.diagnostic(),
+    I = gen_ai_spec.indent(),
+    L = gen_ai_spec.line(),
+    N = gen_ai_spec.number(),
     f = gen_spec.treesitter({ a = '@function.outer', i = '@function.inner' }),
     c = gen_spec.treesitter({ a = '@class.outer', i = '@class.inner' }),
     o = gen_spec.treesitter({
@@ -303,6 +324,7 @@ vim.keymap.set('n', '<leader>pf', pick.builtin.files, { desc = '[p]ick [f]iles' 
 vim.keymap.set('n', '<leader>pg', pick.builtin.grep_live, { desc = '[p]ick w/ [g]rep' })
 vim.keymap.set('n', '<leader>pb', pick.builtin.buffers, { desc = '[p]ick [b]uffers' })
 vim.keymap.set('n', '<leader>ph', pick.builtin.help, { desc = '[p]ick [h]elp tags' })
+vim.keymap.set('n', '<leader>pH', function() require('mini.extra').pickers.hipatterns() end, { desc = '[p]ick [H]ipatterns' })
 
 -- Autocomplete
 require('blink.cmp').setup({
