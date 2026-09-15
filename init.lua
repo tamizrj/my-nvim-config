@@ -156,7 +156,6 @@ end, {})
 
 vim.pack.add({
   gh 'nvim-mini/mini.nvim',
-  gh 'lewis6991/gitsigns.nvim',
   { src = gh 'saghen/blink.cmp', version = vim.version.range('^1') },
   gh 'navarasu/onedark.nvim',
   gh 'stevearc/conform.nvim',
@@ -193,10 +192,10 @@ local gen_hi = require('mini.extra').gen_highlighter
 require('mini.hipatterns').setup({
   highlighters = {
     hex_color = require('mini.hipatterns').gen_highlighter.hex_color(),
-    fixme = gen_hi.words({ 'FIXME', 'Fixme', 'fixme' }, 'MiniHipatternsFixme'),
-    hack  = gen_hi.words({ 'HACK', 'Hack', 'hack' }, 'MiniHipatternsHack'),
-    todo  = gen_hi.words({ 'TODO', 'Todo', 'todo' }, 'MiniHipatternsTodo'),
-    note  = gen_hi.words({ 'NOTE', 'Note', 'note' }, 'MiniHipatternsNote'),
+    fixme     = gen_hi.words({ 'FIXME', 'Fixme', 'fixme' }, 'MiniHipatternsFixme'),
+    hack      = gen_hi.words({ 'HACK', 'Hack', 'hack' }, 'MiniHipatternsHack'),
+    todo      = gen_hi.words({ 'TODO', 'Todo', 'todo' }, 'MiniHipatternsTodo'),
+    note      = gen_hi.words({ 'NOTE', 'Note', 'note' }, 'MiniHipatternsNote'),
   }
 })
 
@@ -206,6 +205,10 @@ require('mini.surround').setup()
 require('mini.tabline').setup()
 require('mini.icons').setup()
 require('mini.statusline').setup()
+require('mini.git').setup()
+require('mini.diff').setup({
+  view = { style = 'sign' }
+})
 
 require('mini.sessions').setup()
 vim.api.nvim_create_user_command('SeshCreate', function(opts)
@@ -324,7 +327,8 @@ vim.keymap.set('n', '<leader>pf', pick.builtin.files, { desc = '[p]ick [f]iles' 
 vim.keymap.set('n', '<leader>pg', pick.builtin.grep_live, { desc = '[p]ick w/ [g]rep' })
 vim.keymap.set('n', '<leader>pb', pick.builtin.buffers, { desc = '[p]ick [b]uffers' })
 vim.keymap.set('n', '<leader>ph', pick.builtin.help, { desc = '[p]ick [h]elp tags' })
-vim.keymap.set('n', '<leader>pH', function() require('mini.extra').pickers.hipatterns() end, { desc = '[p]ick [H]ipatterns' })
+vim.keymap.set('n', '<leader>pH', function() require('mini.extra').pickers.hipatterns() end,
+  { desc = '[p]ick [H]ipatterns' })
 
 -- Autocomplete
 require('blink.cmp').setup({
