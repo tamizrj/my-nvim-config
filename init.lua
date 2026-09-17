@@ -300,6 +300,7 @@ clue.setup({
   clues = {
     { mode = 'n', keys = '<Leader>p',  desc = '+pick' },
     { mode = 'n', keys = '<Leader>pg', desc = '+git' },
+    { mode = 'n', keys = '<Leader>ps', desc = '+symbols' },
     { mode = 'n', keys = '<Leader>c',  desc = '+clear' },
     { mode = 'n', keys = '<Leader>t',  desc = '+term' },
     clue.gen_clues.square_brackets(),
@@ -482,7 +483,7 @@ vim.lsp.config('clangd', {
 })
 
 require('mason-lspconfig').setup({
-  automatic_enable = true,   -- runs vim.lsp.enable()
+  automatic_enable = true, -- runs vim.lsp.enable()
 })
 
 -- LSP Keymaps Create an augroup to ensure this doesn't get duplicated if you reload your config
@@ -502,10 +503,11 @@ vim.api.nvim_create_autocmd('LspAttach', {
     map('grr', function() extra.lsp({ scope = 'references' }) end, '[g]o to [r]eferences')
     map('gri', function() extra.lsp({ scope = 'implementation' }) end, '[g]o to [i]mplementation')
     map('grT', function() extra.lsp({ scope = 'type_definition' }) end, '[g]o to [T]ype definition')
-    map('gsd', function() extra.lsp({ scope = 'document_symbol' }) end, '[g]o to buffer [s]ymbol [d]efinitions')
-    map('gsl', function() extra.lsp({ scope = 'workspace_symbol_live' }) end, '[g]o to workspace [s]ymbols (live)')
     map('grn', vim.lsp.buf.rename, '[r]e[n]ame symbol')
     map('gra', vim.lsp.buf.code_action, 'code [a]ction')
+
+    map('<leader>psd', function() extra.lsp({ scope = 'document_symbol' }) end, '[d]ocument symbols')
+    map('<leader>psw', function() extra.lsp({ scope = 'workspace_symbol_live' }) end, '[w]orkspace symbols')
     clue.ensure_buf_triggers()
   end,
 })
@@ -555,14 +557,14 @@ require('nvim-treesitter').setup({
   textobjects = {
     move = {
       enable = true,
-      set_jumps = true,                     -- Adds these movements to your jumplist (<C-o> to go back)
+      set_jumps = true,             -- Adds these movements to your jumplist (<C-o> to go back)
       goto_next_start = {
-        ["]m"] = "@function.outer",         -- Jump to the start of the next function
-        ["]]"] = "@class.outer",            -- Jump to the start of the next class
+        ["]m"] = "@function.outer", -- Jump to the start of the next function
+        ["]]"] = "@class.outer",    -- Jump to the start of the next class
       },
       goto_previous_start = {
-        ["[m"] = "@function.outer",         -- Jump to the start of the previous function
-        ["[["] = "@class.outer",            -- Jump to the start of the previous class
+        ["[m"] = "@function.outer", -- Jump to the start of the previous function
+        ["[["] = "@class.outer",    -- Jump to the start of the previous class
       },
     },
   },
