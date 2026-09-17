@@ -487,6 +487,45 @@ require('mason-lspconfig').setup({
 })
 
 -- LSP Keymaps Create an augroup to ensure this doesn't get duplicated if you reload your config
+
+-- Jump directly if LSP returns a single location; open the mini.extra picker otherwise
+local function extra_lsp_or_jump(scope)
+  local from = vim.fn.getpos('.')
+  from[1] = vim.api.nvim_get_current_buf()
+  local tagname = vim.fn.expand('<cword>')
+
+  local opts = {
+    on_list = function(data)
+      local items = data.items
+      if #items == 1 then
+        local item = items[1]
+        local b = item.bufnr or vim.fn.bufadd(item.filename)
+        -- Save position in jumplist
+        vim.cmd("normal! m'")
+        -- Push a new item into tagstack
+        vim.fn.settagstack(
+          vim.fn.win_getid(vim.api.nvim_get_current_win()),
+          { items = { { tagname = tagname, from = from } } },
+          't'
+        )
+        vim.bo[b].buflisted = true
+        vim.api.nvim_win_set_buf(0, b)
+        vim.api.nvim_win_set_cursor(0, { item.lnum, item.col - 1 })
+        -- Open folds under the cursor
+        vim.cmd('normal! zv')
+      else
+        extra.lsp({ scope = scope })
+      end
+    end,
+  }
+
+  if scope == 'references' then
+    vim.lsp.buf.references(nil, opts)
+  else
+    vim.lsp.buf[scope](opts)
+  end
+end
+
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('UserLspConfig', { clear = true }),
   callback = function(event)
@@ -498,11 +537,11 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
     -- 2. Define your keymaps
     map('K', vim.lsp.buf.hover, 'Hover documentation')
-    map('grd', function() extra.lsp({ scope = 'definition' }) end, '[g]o to [d]efinition')
-    map('grD', function() extra.lsp({ scope = 'declaration' }) end, '[g]o to [D]eclaration')
-    map('grr', function() extra.lsp({ scope = 'references' }) end, '[g]o to [r]eferences')
-    map('gri', function() extra.lsp({ scope = 'implementation' }) end, '[g]o to [i]mplementation')
-    map('grT', function() extra.lsp({ scope = 'type_definition' }) end, '[g]o to [T]ype definition')
+    map('grd', function() extra_lsp_or_jump('definition') end, '[g]o to [d]efinition')
+    map('grD', function() extra_lsp_or_jump('declaration') end, '[g]o to [D]eclaration')
+    map('grr', function() extra_lsp_or_jump('references') end, '[g]o to [r]eferences')
+    map('gri', function() extra_lsp_or_jump('implementation') end, '[g]o to [i]mplementation')
+    map('grT', function() extra_lsp_or_jump('type_definition') end, '[g]o to [T]ype definition')
     map('grn', vim.lsp.buf.rename, '[r]e[n]ame symbol')
     map('gra', vim.lsp.buf.code_action, 'code [a]ction')
 
