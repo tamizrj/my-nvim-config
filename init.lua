@@ -270,7 +270,7 @@ local clue = require('mini.clue')
 clue.setup({
   triggers = {
     -- Leader triggers
-    { mode = { 'n', 'x' }, keys = '<Leader>' },
+    { mode = { 'n', 'x' }, keys = '<leader>' },
 
     -- `[` and `]` keys
     { mode = 'n',          keys = '[' },
@@ -298,11 +298,11 @@ clue.setup({
   },
 
   clues = {
-    { mode = 'n', keys = '<Leader>p',  desc = '+pick' },
-    { mode = 'n', keys = '<Leader>pg', desc = '+git' },
-    { mode = 'n', keys = '<Leader>ps', desc = '+symbols' },
-    { mode = 'n', keys = '<Leader>c',  desc = '+clear' },
-    { mode = 'n', keys = '<Leader>t',  desc = '+term' },
+    { mode = 'n', keys = '<leader>p',  desc = '+pick' },
+    { mode = 'n', keys = '<leader>pg', desc = '+git' },
+    { mode = 'n', keys = '<leader>ps', desc = '+symbols' },
+    { mode = 'n', keys = '<leader>c',  desc = '+clear' },
+    { mode = 'n', keys = '<leader>t',  desc = '+term' },
     clue.gen_clues.square_brackets(),
     clue.gen_clues.builtin_completion(),
     clue.gen_clues.g(),
